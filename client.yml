@@ -1,0 +1,74 @@
+metadata:
+ title: Woodlands Wills
+ short title: WW
+ description: This will assemble a simple will and incapacity planning documents.
+ title: Woodlands Wills
+ short title: WW
+ authors:
+   - name: James W. "Mitch" Mitchell
+     organization: Gauntt Koen Binney & Kidd, LLP
+ revision_date: 2019-10-06
+---
+modules:
+  - docassemble.base
+---
+include:
+  - basic-questions.yml
+---
+default role: client
+code: |
+  if user_logged_in() and user_has_privilege('advocate'):
+    user = advocate
+    role = 'advocate'
+  else:
+    user = client
+    role = 'client'
+  set_info(user=user, role=role)
+---
+
+question: |
+  What is ${ client.object_possessive('name') }?
+fields:
+  - First Name: client.name.first
+    default: ${ client.first_name_hint() }
+  - Middle Name: client.name.middle
+    required: False
+  - Last Name: client.name.last
+    default: ${ client.last_name_hint() }
+  - Suffix: client.name.suffix
+    required: False
+    code: |
+      name_suffix()
+---
+question: |
+  What are ${ client.object_possessive('preferred pronouns') }?
+field: client.pronouns
+choices:
+  - Male: male
+  - Female: female
+  - Neutral: neutral
+---
+question: |
+  What is ${ client.object_possessive('email address') }?
+fields:
+  - Email: client.email
+datatype: email
+---
+question: |
+  What is ${ client.object_possessive('date of birth') }?
+fields:
+  - Date of Birth: client.birthdate
+datatype: date
+---
+question: |
+  What is ${ client.object_possessive('phone number') }?
+fields:
+  - Phone Number: client.phone_number
+datatype: phone_number
+---
+mandatory: True
+question: |
+  You are
+subquestion: |
+  Thank you, ${ client.name.first }.  ${ client.object_possessive('date of birth', capitalize=True) } is  ${ client.birthdate }.
+  ${ client.object_possessive('email address', capitalize=True) } is ${ client.email } and ${ client.object_possessive('phone number') } is ${ client.phone_number }.
