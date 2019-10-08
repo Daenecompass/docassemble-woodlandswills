@@ -1,13 +1,16 @@
 metadata:
-  title: Woodlands Wills
-  short title: WW
-  description: This will assemble a simple will and incapacity planning documents.
-  title: Woodlands Wills
-  short title: WW
-  authors:
-    - name: James W. "Mitch" Mitchell
-      organization: Gauntt Koen Binney & Kidd, LLP
-  revision_date: 2019-10-02
+ title: Woodlands Wills
+ short title: WW
+ description: This will assemble a simple will and incapacity planning documents.
+ title: Woodlands Wills
+ short title: WW
+ authors:
+   - name: James W. "Mitch" Mitchell
+     organization: Gauntt Koen Binney & Kidd, LLP
+ revision_date: 2019-10-07
+---
+modules:
+  - docassemble.base
 ---
 include:
   - basic-questions.yml
@@ -22,10 +25,17 @@ code: |
     role = 'client'
   set_info(user=user, role=role)
 ---
-mandatory: True
-generic list object: Individual
+question: |
+	Are you married?
+field: marital_status
+choices:
+  - Yes: married	
+  - No: not married
+---
 question: |
   What is ${ client.possessive('spouse') }'s name?
+subquestion: |
+ Provide full name as it appears on ${ client.possessive('spouse') }'s driver's license, passport, or similar identification.
 fields:
   - First Name: spouse.name.first
     default: ${ spouse.first_name_hint() }
@@ -38,7 +48,48 @@ fields:
     code: |
       name_suffix()
 ---
-mandatory: True
-event: final_screen
 question: |
-  Here are your documents, ${ client }.
+  What are ${ spouse.name.first }'s preferred pronouns?
+field: spouse.pronouns
+choices:
+  - Male: male
+  - Female: female
+  - Neutral: neutral
+---
+question: |
+  What is ${ spouse.name.first }'s email address?
+fields:
+  - Email: spouse.email
+    datatype: email
+---
+question: |
+  What is ${ spouse.name.first }'s date of birth?
+fields:
+  - Date of Birth: spouse.birthdate
+    datatype: date
+---
+question: |
+  What is ${ spouse.name.first }'s cell phone number?
+subquestion: |
+  Make it pretty. This will appear in your completed documents.
+  
+  We also may use this number to call or text ${ spouse.name.first }.
+fields:
+  - Phone Number: spouse.phone_number
+    datatype: phone_number
+    validate: phone_number_is_valid
+    hint: (XXX) XXX-XXXX
+---
+mandatory: True
+question: |
+  You are
+  ${ marital_status }.
+subquestion: |
+  % if marital_status == 'married':
+  Thank you, ${ client.name.first }. Your spouse is ${ spouse }.  ${ spouse.name.first }'s date of birth is  ${ spouse.birthdate }.
+  
+  ${ spouse.name.first }'s email address is ${ spouse.email } and cell phone number is ${ spouse.phone_number }.
+ 
+  % else:
+  Thank you, ${ client.name.first }. You just made your interview shorter.
+  % endif
