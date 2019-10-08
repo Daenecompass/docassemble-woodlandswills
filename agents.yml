@@ -1,0 +1,77 @@
+metadata:
+ title: Woodlands Wills
+ short title: WW
+ description: This will assemble a simple will and incapacity planning documents.
+ title: Woodlands Wills
+ short title: WW
+ authors:
+   - name: James W. "Mitch" Mitchell
+     organization: Gauntt Koen Binney & Kidd, LLP
+ revision_date: 2019-10-07
+--- 
+modules:
+  - docassemble.base.core
+  - docassemble.base.util
+---
+objects:
+  - healthcare_agent: DAList.using(object_type=Individual,there_is_another=False)
+---
+mandatory: True
+code: |
+  if healthcare_agent.there_are_any:
+    review_healthcare_agent
+---
+question: | 
+  Let's gather information about individuals you want to serve as healthcare agent.
+yesno: healthcare_agent.there_are_any
+---
+table: healthcare_agent.table
+rows: healthcare_agent
+columns: 
+  - Name: row_item
+  - Address: row_item.address
+  - Phone Number: row_item.phone_number
+edit:
+  - name.first
+---
+question: | 
+  Healthcare agents
+subquestion: |
+  So far you have added ${healthcare_agent.number_as_word()} ${ healthcare_agent.as_noun() }.
+  
+  ${healthcare_agent.table}
+
+  ${healthcare_agent.add_action() }
+field: review_healthcare_agent
+---
+question: |
+  Information about the ${ordinal(i)} Healthcare Agent. 
+fields:
+  - First name: healthcare_agent[i].name.first
+  - Middle name: healthcare_agent[i].name.middle
+    required: False
+  - Last name: healthcare_agent[i].name.last
+  - Suffix: healthcare_agent[i].name.suffix
+    required: False
+    code: |
+      name_suffix()
+  - Address: healthcare_agent[i].address.address
+    address autocomplete: True
+  - City: healthcare_agent[i].address.city
+  - State: healthcare_agent[i].address.state
+    code: |
+      states_list()
+  - Zip: healthcare_agent[i].address.zip
+    required: False
+  - Phone Number: healthcare_agent[i].phone_number
+    datatype: phone_number
+    validate: phone_number_is_valid
+---
+mandatory: True
+question: |
+  The healthcare agents are ${healthcare_agent}
+---
+mandatory: True
+event: final_screen
+question: |
+  Here are your documents, ${ client }.
