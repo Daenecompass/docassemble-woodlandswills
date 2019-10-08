@@ -7,7 +7,7 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-10-06
+ revision_date: 2019-10-07
 ---
 modules:
   - docassemble.base
@@ -25,7 +25,6 @@ code: |
     role = 'client'
   set_info(user=user, role=role)
 ---
-
 question: |
   What is ${ client.object_possessive('name') }?
 fields:
@@ -52,23 +51,40 @@ question: |
   What is ${ client.object_possessive('email address') }?
 fields:
   - Email: client.email
-datatype: email
+    datatype: email
 ---
 question: |
   What is ${ client.object_possessive('date of birth') }?
 fields:
   - Date of Birth: client.birthdate
-datatype: date
+    datatype: date
 ---
 question: |
   What is ${ client.object_possessive('phone number') }?
 fields:
   - Phone Number: client.phone_number
-datatype: phone_number
+    datatype: phone_number
+    validate: phone_number_is_valid
+---
+question: |
+  What is ${ client.object_possessive('home address') }?
+fields:
+  - Address: client.address.address
+    address autocomplete: True
+  - City: client.address.city
+  - State: client.address.state
+    code: |
+      states_list()
+  - Zip: client.address.zip
+    required: False
+  - County: client.address.county
 ---
 mandatory: True
 question: |
   You are
 subquestion: |
   Thank you, ${ client.name.first }.  ${ client.object_possessive('date of birth', capitalize=True) } is  ${ client.birthdate }.
+  
   ${ client.object_possessive('email address', capitalize=True) } is ${ client.email } and ${ client.object_possessive('phone number') } is ${ client.phone_number }.
+  
+  You live at ${ client.address }.
