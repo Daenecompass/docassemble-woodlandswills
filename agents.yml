@@ -7,7 +7,7 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-10-07
+ revision_date: 2019-10-08
 --- 
 modules:
   - docassemble.base.core
@@ -22,8 +22,12 @@ code: |
     review_healthcare_agent
 ---
 question: | 
-  Let's gather information about individuals you want to serve as healthcare agent.
-yesno: healthcare_agent.there_are_any
+  Let's gather information about individuals you want to serve as **healthcare agent**.
+subquestion: |
+  Your **healthcare agent** will be able to make **healthcare decisions** for you in the event you are **incapacitated** (i.e., unable to communicate your own desires concerning treatment).
+
+  When you are ready, press or click continue.
+field: healthcare_agent.there_are_any
 ---
 table: healthcare_agent.table
 rows: healthcare_agent
@@ -35,9 +39,11 @@ edit:
   - name.first
 ---
 question: | 
-  Healthcare agents
+  Healthcare Agents
 subquestion: |
-  So far you have added ${healthcare_agent.number_as_word()} ${ healthcare_agent.as_noun() }.
+  So far you have added ${healthcare_agent.number_as_word()} **${ healthcare_agent.as_noun() }**.
+  
+  Once you are done adding people, press or click continue.
   
   ${healthcare_agent.table}
 
@@ -45,7 +51,11 @@ subquestion: |
 field: review_healthcare_agent
 ---
 question: |
-  Information about the ${ordinal(i)} Healthcare Agent. 
+  ${ordinal(i, capitalize=True)} Healthcare Agent's Information 
+subquestion: |
+  **You are required to have at least one, but two or three is preferable.**
+  
+  List them in the order you want them to serve. Only one at a time will make decisions.
 fields:
   - First name: healthcare_agent[i].name.first
   - Middle name: healthcare_agent[i].name.middle
@@ -69,7 +79,9 @@ fields:
 ---
 mandatory: True
 question: |
-  The healthcare agents are ${healthcare_agent}
+  Your **${ healthcare_agent.as_noun() }**:
+subquestion: | 
+  ${healthcare_agent}
 ---
 mandatory: True
 event: final_screen
