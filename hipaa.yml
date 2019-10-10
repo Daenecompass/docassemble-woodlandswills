@@ -7,8 +7,8 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-10-09
---- 
+ revision_date: 2019-10-10
+---
 modules:
   - docassemble.base.core
   - docassemble.base.util
@@ -22,11 +22,13 @@ code: |
     review_authorized_person
 ---
 question: | 
-  Let's gather information about individuals who you want to list as **authorized persons** to received your protected health information in an **Authorization for Disclosure of Protected Health Information**.
+  **Authorization for Disclosure of Protected Health Information**
 subquestion: |
+  #### Let's gather information about individuals who you want to list as **authorized persons** to receive your protected health information.
+
+
   Health care providers given a copy of this document may disclose your protected health information to the **authorized persons** that you name in this **Authorization for Disclosure of Protected Health Information**. 
 
-  #### When you are ready, press or click continue.
 field: authorized_person.there_are_any
 ---
 table: authorized_person.table
