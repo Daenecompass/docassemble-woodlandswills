@@ -7,7 +7,7 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-10-10
+ revision_date: 2019-10-09
 --- 
 modules:
   - docassemble.base.core
@@ -31,7 +31,6 @@ subquestion: |
   Ultimately, the court will decide who will serve as guardian, but this Declaration will be taken into account.
   
   You are also signing a Statutory Durable Power of Attorney, so it is unlikely guardianship would be needed. This is because your agent under a durable power of attorney typically is able to carry out your wishes when you are incapacitated.
- 
 field: guardian.there_are_any
 ---
 table: guardian.table
