@@ -7,7 +7,7 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-10-09
+ revision_date: 2019-10-10
 --- 
 modules:
   - docassemble.base.core
@@ -32,15 +32,15 @@ code: |
     review_directive
 ---
 question: | 
-  A **Directive to Physicians and Family or Surrogates** states your wishes for treatment in the event you are incapacitated and unable to state your wishes. 
+  **Directive to Physicians and Family or Surrogates**
 subquestion: |
+  #### A **Directive to Physicians and Family or Surrogates** states your wishes for treatment in the event you are incapacitated and unable to state your wishes. 
+
   The Directive provides three choices for when you are diagnosed with either a **terminal condition** or an **irreversible condition**.
   
   A **terminal condition** is a condition from which you are expected to die within six months, even with available life-sustaining treatment provided in accordance with prevailing standards of medical care.
   
   An **irreversible condition** is a condition (other than terminal) in which you cannot care for yourself or make decisions for yourself and are expected to die (but not necessarily within six months) without life-sustaining treatment provided in accordance with prevailing standards of care. 
-
-  #### When you are ready, press or click continue.
 field: hcdirective
 ---
 question: | 
