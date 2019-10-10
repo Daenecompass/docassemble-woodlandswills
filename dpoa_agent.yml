@@ -7,7 +7,7 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-10-09
+ revision_date: 2019-10-10
 --- 
 modules:
   - docassemble.base.core
@@ -22,17 +22,18 @@ code: |
     review_financial_agent
 ---
 question: | 
-  Let's gather information about individuals you want to serve as **agent** under your **Statutory Durable Power of Attorney**.
+  **Statutory Durable Power of Attorney**
 subquestion: |
-  Your **agent** that you name in this **Statutory Durable Power of Attorney** will be able to make **financial or business decisions** for you in the event you are **incapacitated** (i.e., unable to conduct your own financial or business affairs).
+  #### Let's gather information about individuals you want to serve as **agent** under your **Statutory Durable Power of Attorney**.
+  
+  Your **agent** will be able to make **financial or business decisions** for you in the event you are **incapacitated** (i.e., unable to conduct your own financial or business affairs).
   
   An **agent** acting under the **Statutory Durable Power of Attorney** will have the same power as though they were you for all matters that you specify (you will initial your choices when you sign the power of attorney document). 
 
   **Statutory** means this form is provided by a statute passed by the Texas Legislature.
   
   **Durable** means that this power of attorney remains effective during your incapacity.
-  
-  #### When you are ready, press or click continue.
+
 field: financial_agent.there_are_any
 ---
 table: financial_agent.table
