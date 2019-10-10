@@ -2,12 +2,10 @@ metadata:
   title: Woodlands Wills
   short title: WW
   description: This will assemble a simple will and incapacity planning documents.
-  title: Woodlands Wills
-  short title: WW
   authors:
     - name: James W. "Mitch" Mitchell
       organization: Gauntt Koen Binney & Kidd, LLP
-  revision_date: 2019-10-01
+  revision_date: 2019-10-10
 ---
 include:
   - basic-questions.yml
@@ -69,4 +67,3 @@ question: |
 modules:
   - docassemble.base.core
   - docassemble.base.util
-  
