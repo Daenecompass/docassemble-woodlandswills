@@ -7,7 +7,7 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-10-08
+ revision_date: 2019-10-09
 --- 
 modules:
   - docassemble.base.core
@@ -76,12 +76,13 @@ fields:
   - Phone Number: healthcare_agent[i].phone_number
     datatype: phone_number
     validate: phone_number_is_valid
+    hint: (XXX) XXX-XXXX
 ---
 mandatory: True
 question: |
   Your **${ healthcare_agent.as_noun() }**:
 subquestion: | 
-  ${healthcare_agent}
+  ${healthcare_agent} (listed in the order they will serve).
 ---
 mandatory: True
 event: final_screen
