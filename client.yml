@@ -7,7 +7,7 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-10-07
+ revision_date: 2019-10-09
 ---
 modules:
   - docassemble.base
@@ -65,6 +65,7 @@ fields:
   - Phone Number: client.phone_number
     datatype: phone_number
     validate: phone_number_is_valid
+    hint: (XXX) XXX-XXXX
 ---
 question: |
   What is ${ client.object_possessive('home address') }?
