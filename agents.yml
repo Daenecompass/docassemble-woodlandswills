@@ -7,7 +7,7 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-10-09
+ revision_date: 2019-10-10
 --- 
 modules:
   - docassemble.base.core
@@ -22,11 +22,12 @@ code: |
     review_healthcare_agent
 ---
 question: | 
-  Let's gather information about individuals you want to serve as **healthcare agent**.
+  Health Care Power of Attorney
 subquestion: |
+  #### Let's gather information about individuals you want to serve as **healthcare agent**.
+
   Your **healthcare agent** will be able to make **healthcare decisions** for you in the event you are **incapacitated** (i.e., unable to communicate your own desires concerning treatment).
 
-  When you are ready, press or click continue.
 field: healthcare_agent.there_are_any
 ---
 table: healthcare_agent.table
