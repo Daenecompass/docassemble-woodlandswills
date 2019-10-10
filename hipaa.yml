@@ -78,6 +78,7 @@ fields:
   - Phone Number: authorized_person[i].phone_number
     datatype: phone_number
     validate: phone_number_is_valid
+    hint: (XXX) XXX-XXXX
 ---
 mandatory: True
 question: |
