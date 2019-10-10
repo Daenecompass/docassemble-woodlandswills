@@ -1,0 +1,77 @@
+metadata:
+ title: Woodlands Wills
+ short title: WW
+ description: This will assemble a simple will and incapacity planning documents.
+ title: Woodlands Wills
+ short title: WW
+ authors:
+   - name: James W. "Mitch" Mitchell
+     organization: Gauntt Koen Binney & Kidd, LLP
+ revision_date: 2019-10-09
+--- 
+modules:
+  - docassemble.base.core
+  - docassemble.base.util
+---
+include:
+  - basic-questions.yml
+---
+default role: client
+code: |
+  if user_logged_in() and user_has_privilege('advocate'):
+    user = advocate
+    role = 'advocate'
+  else:
+    user = client
+    role = 'client'
+  set_info(user=user, role=role)
+---
+mandatory: True
+code: |
+  if hcdirective:
+    review_directive
+---
+question: | 
+  A **Directive to Physicians and Family or Surrogates** states your wishes for treatment in the event you are incapacitated and unable to state your wishes. 
+subquestion: |
+  The Directive provides three choices for when you are diagnosed with either a **terminal condition** or an **irreversible condition**.
+  
+  A **terminal condition** is a condition from which you are expected to die within six months, even with available life-sustaining treatment provided in accordance with prevailing standards of medical care.
+  
+  An **irreversible condition** is a condition (other than terminal) in which you cannot care for yourself or make decisions for yourself and are expected to die (but not necessarily within six months) without life-sustaining treatment provided in accordance with prevailing standards of care. 
+
+  #### When you are ready, press or click continue.
+field: hcdirective
+---
+question: | 
+  Health Care Directive Choices
+subquestion: |
+  Let's review it.
+  
+  If I have a **terminal condition**: ${ client.terminal_condition }.
+  
+  If I have an **irreversible condition**: ${ client.irreversible_condition }.
+field: review_directive
+---
+mandatory: True
+question: |
+  If I have a **terminal condition**, and I am unable to make my wishes known:
+field: client.terminal_condition
+choices:
+  - Withhold life-sustaining treatment
+  - Do not withhold life-sustaining treatment
+  - I want my doctor and my agent (named in my healthcare power of attorney) to decide
+---
+mandatory: True
+question: |
+  If I have an **irreversible condition**, and I am unable to make my wishes known:
+field: client.irreversible_condition
+choices:
+  - Withhold life-sustaining treatment
+  - Do not withhold life-sustaining treatment
+  - I want my doctor and my agent (named in my healthcare power of attorney) to decide
+---
+mandatory: True
+event: final_screen
+question: |
+  Here are your documents, ${ client }.
