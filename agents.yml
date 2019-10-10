@@ -22,7 +22,7 @@ code: |
     review_healthcare_agent
 ---
 question: | 
-  Health Care Power of Attorney
+  **Health Care Power of Attorney**
 subquestion: |
   #### Let's gather information about individuals you want to serve as **healthcare agent**.
 
