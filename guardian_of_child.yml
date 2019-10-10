@@ -7,7 +7,7 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-10-09
+ revision_date: 2019-10-10
 --- 
 modules:
   - docassemble.base.core
@@ -22,13 +22,13 @@ code: |
     review_child_guardian
 ---
 question: | 
-  Let's gather information about individuals you want to serve as **guardian** for your children in the event you are deceased or incapacitated (and there is no other surviving parent).
+  **Declaration of Guardian for My Children**
 subquestion: |
+  #### Let's gather information about individuals you want to serve as **guardian** for your children in the event you are deceased or incapacitated (and there is no other surviving parent).
+  
   In this **Declaration of Guardian for My Children**, you are stating your wishes in advance as to who you would want the court to appoint.
   
   Ultimately, the court will decide who will serve as guardian, but this Declaration will be taken into account.
-  
-  #### When you are ready, press or click continue.
 field: child_guardian.there_are_any
 ---
 table: child_guardian.table
