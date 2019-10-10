@@ -1,0 +1,96 @@
+metadata:
+ title: Woodlands Wills
+ short title: WW
+ description: This will assemble a simple will and incapacity planning documents.
+ title: Woodlands Wills
+ short title: WW
+ authors:
+   - name: James W. "Mitch" Mitchell
+     organization: Gauntt Koen Binney & Kidd, LLP
+ revision_date: 2019-10-09
+--- 
+modules:
+  - docassemble.base.core
+  - docassemble.base.util
+---
+objects:
+  - financial_agent: DAList.using(object_type=Individual,there_is_another=False)
+---
+mandatory: True
+code: |
+  if financial_agent.there_are_any:
+    review_financial_agent
+---
+question: | 
+  Let's gather information about individuals you want to serve as **agent** under your **Statutory Durable Power of Attorney**.
+subquestion: |
+  Your **agent** that you name in this **Statutory Durable Power of Attorney** will be able to make **financial or business decisions** for you in the event you are **incapacitated** (i.e., unable to conduct your own financial or business affairs).
+  
+  An **agent** acting under the **Statutory Durable Power of Attorney** will have the same power as though they were you for all matters that you specify (you will initial your choices when you sign the power of attorney document). 
+
+  **Statutory** means this form is provided by a statute passed by the Texas Legislature.
+  
+  **Durable** means that this power of attorney remains effective during your incapacity.
+  
+  #### When you are ready, press or click continue.
+field: financial_agent.there_are_any
+---
+table: financial_agent.table
+rows: financial_agent
+columns: 
+  - Name: row_item
+  - Address: row_item.address
+  - Phone Number: row_item.phone_number
+edit:
+  - name.first
+---
+question: | 
+  **Statutory Durable Power of Attorney**: Agents
+subquestion: |
+  So far you have added ${financial_agent.number_as_word()} **${ financial_agent.as_noun() }**.
+  
+  Once you are done adding people, press or click continue.
+  
+  ${financial_agent.table}
+
+  ${financial_agent.add_action() }
+field: review_financial_agent
+---
+question: |
+  ${ordinal(i, capitalize=True)} Agent's Information 
+subquestion: |
+  **You are required to have at least one, but two or three is preferable.**
+  
+  List them in the order you want them to serve. Only one at a time will serve as agent under the power of attorney.
+fields:
+  - First name: financial_agent[i].name.first
+  - Middle name: financial_agent[i].name.middle
+    required: False
+  - Last name: financial_agent[i].name.last
+  - Suffix: financial_agent[i].name.suffix
+    required: False
+    code: |
+      name_suffix()
+  - Address: financial_agent[i].address.address
+    address autocomplete: True
+  - City: financial_agent[i].address.city
+  - State: financial_agent[i].address.state
+    code: |
+      states_list()
+  - Zip: financial_agent[i].address.zip
+    required: False
+  - Phone Number: financial_agent[i].phone_number
+    datatype: phone_number
+    validate: phone_number_is_valid
+    hint: (XXX) XXX-XXXX
+---
+mandatory: True
+question: |
+  Your **${ financial_agent.as_noun() }**:
+subquestion: | 
+  ${financial_agent} (listed in the order they will serve).
+---
+mandatory: True
+event: final_screen
+question: |
+  Here are your documents, ${ client }.
