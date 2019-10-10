@@ -1,0 +1,94 @@
+metadata:
+ title: Woodlands Wills
+ short title: WW
+ description: This will assemble a simple will and incapacity planning documents.
+ title: Woodlands Wills
+ short title: WW
+ authors:
+   - name: James W. "Mitch" Mitchell
+     organization: Gauntt Koen Binney & Kidd, LLP
+ revision_date: 2019-10-09
+--- 
+modules:
+  - docassemble.base.core
+  - docassemble.base.util
+---
+objects:
+  - guardian: DAList.using(object_type=Individual,there_is_another=False)
+---
+mandatory: True
+code: |
+  if guardian.there_are_any:
+    review_guardian
+---
+question: | 
+  Let's gather information about individuals you want to serve as **guardian** in the event you are incapacitated and there is a need for a court to appoint a guardian. 
+subquestion: |
+  In this **Declaration of Guardian Before Need Arises**, you are stating your wishes in advance as to who you would want the court to appoint in the event the drastic measure of guardianship is needed.
+  
+  Ultimately, the court will decide who will serve as guardian, but this Declaration will be taken into account.
+  
+  You are also signing a Statutory Durable Power of Attorney, so it is unlikely guardianship would be needed. This is because your agent under a durable power of attorney typically is able to carry out your wishes when you are incapacitated.
+  
+  #### When you are ready, press or click continue.
+field: guardian.there_are_any
+---
+table: guardian.table
+rows: guardian
+columns: 
+  - Name: row_item
+  - Address: row_item.address
+  - Phone Number: row_item.phone_number
+edit:
+  - name.first
+---
+question: | 
+  Persons Named in Your **Declaration of Guardian Before Need Arises**
+subquestion: |
+  So far you have added ${guardian.number_as_word()} **${ guardian.as_noun() }**.
+  
+  Once you are done adding people, press or click continue.
+  
+  ${guardian.table}
+
+  ${guardian.add_action() }
+field: review_guardian
+---
+question: |
+  ${ordinal(i, capitalize=True)} Guardian's Information 
+subquestion: |
+  **You are required to have at least one, but two or three is preferable.**
+  
+  List them in the order you want them to serve. Remember that the court ultimately decides who is appointed but will take this written **Declaration of Guardian Before Need Arises** into account.
+fields:
+  - First name: guardian[i].name.first
+  - Middle name: guardian[i].name.middle
+    required: False
+  - Last name: guardian[i].name.last
+  - Suffix: guardian[i].name.suffix
+    required: False
+    code: |
+      name_suffix()
+  - Address: guardian[i].address.address
+    address autocomplete: True
+  - City: guardian[i].address.city
+  - State: guardian[i].address.state
+    code: |
+      states_list()
+  - Zip: guardian[i].address.zip
+    required: False
+  - Phone Number: guardian[i].phone_number
+    datatype: phone_number
+    validate: phone_number_is_valid
+    hint: (XXX) XXX-XXXX
+---
+mandatory: True
+question: |
+  Your **${ guardian.as_noun() }**:
+subquestion: | 
+  ${guardian} (listed in the order they will serve). 
+---
+mandatory: True
+event: final_screen
+question: |
+  Here are your documents, ${ client }.
