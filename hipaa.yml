@@ -26,9 +26,7 @@ question: |
 subquestion: |
   #### Let's gather information about individuals who you want to list as **authorized persons** to receive your protected health information.
 
-
   Health care providers given a copy of this document may disclose your protected health information to the **authorized persons** that you name in this **Authorization for Disclosure of Protected Health Information**. 
-
 field: authorized_person.there_are_any
 ---
 table: authorized_person.table
