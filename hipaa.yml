@@ -1,0 +1,89 @@
+metadata:
+ title: Woodlands Wills
+ short title: WW
+ description: This will assemble a simple will and incapacity planning documents.
+ title: Woodlands Wills
+ short title: WW
+ authors:
+   - name: James W. "Mitch" Mitchell
+     organization: Gauntt Koen Binney & Kidd, LLP
+ revision_date: 2019-10-09
+--- 
+modules:
+  - docassemble.base.core
+  - docassemble.base.util
+---
+objects:
+  - authorized_person: DAList.using(object_type=Individual,there_is_another=False)
+---
+mandatory: True
+code: |
+  if authorized_person.there_are_any:
+    review_authorized_person
+---
+question: | 
+  Let's gather information about individuals who you want to list as **authorized persons** to received your protected health information in an **Authorization for Disclosure of Protected Health Information**.
+subquestion: |
+  Health care providers given a copy of this document may disclose your protected health information to the **authorized persons** that you name in this **Authorization for Disclosure of Protected Health Information**. 
+
+  #### When you are ready, press or click continue.
+field: authorized_person.there_are_any
+---
+table: authorized_person.table
+rows: authorized_person
+columns: 
+  - Name: row_item
+  - Address: row_item.address
+  - Phone Number: row_item.phone_number
+edit:
+  - name.first
+---
+question: | 
+  Persons Authorized to Receive Protected Health Information
+subquestion: |
+  So far you have added ${authorized_person.number_as_word()} **${ authorized_person.as_noun() }**.
+  
+  Once you are done adding people, press or click continue.
+  
+  ${authorized_person.table}
+
+  ${authorized_person.add_action() }
+field: review_authorized_person
+---
+question: |
+  ${ordinal(i, capitalize=True)} Authorized Person's Information 
+subquestion: |
+  **You are required to have at least one to complete this form, but two or three is preferable.**
+  
+  There is no order. A health care provider may disclose your protected health information to any authorized person listed on the **Authorization for Disclosure of Protected Health Information**.
+fields:
+  - First name: authorized_person[i].name.first
+  - Middle name: authorized_person[i].name.middle
+    required: False
+  - Last name: authorized_person[i].name.last
+  - Suffix: authorized_person[i].name.suffix
+    required: False
+    code: |
+      name_suffix()
+  - Address: authorized_person[i].address.address
+    address autocomplete: True
+  - City: authorized_person[i].address.city
+  - State: authorized_person[i].address.state
+    code: |
+      states_list()
+  - Zip: authorized_person[i].address.zip
+    required: False
+  - Phone Number: authorized_person[i].phone_number
+    datatype: phone_number
+    validate: phone_number_is_valid
+---
+mandatory: True
+question: |
+  Your **${ authorized_person.as_noun() }**:
+subquestion: | 
+  ${authorized_person}
+---
+mandatory: True
+event: final_screen
+question: |
+  Here are your documents, ${ client }.
