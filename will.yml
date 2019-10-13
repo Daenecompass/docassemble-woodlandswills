@@ -1,0 +1,146 @@
+metadata:
+ title: Woodlands Wills
+ short title: WW
+ description: This will assemble a simple will and incapacity planning documents.
+ authors:
+   - name: James W. "Mitch" Mitchell
+     organization: Gauntt Koen Binney & Kidd, LLP
+ revision_date: 2019-10-12
+--- 
+modules:
+  - docassemble.base.core
+  - docassemble.base.util
+---
+objects:
+  - executor: DAList.using(object_type=Individual,there_is_another=False)
+  - trustee: DAList.using(object_type=Individual,there_is_another=False)
+---
+mandatory: True
+code: |
+  if executor.there_are_any:
+    review_executor
+---
+mandatory: True
+code: |
+  if trustee.there_are_any:
+    review_trustee
+---
+question: | 
+  **Will - Executors**
+subquestion: |
+  #### Let's gather information about individuals you want to serve as **executor** to carry out the terms of your Will.  
+field: executor.there_are_any
+---
+table: executor.table
+rows: executor
+columns: 
+  - Name: row_item
+  - Address: row_item.address
+  - Phone Number: row_item.phone_number
+edit:
+  - name.first
+---
+question: | 
+  Persons Named as **Executor** in Your Will
+subquestion: |
+  So far you have added ${executor.number_as_word()} **${ executor.as_noun() }**.
+  
+  Once you are done adding people, press or click continue.
+  
+  ${executor.table}
+  ${executor.add_action() }
+field: review_executor
+---
+question: |
+  ${ordinal(i, capitalize=True)} Executor's Information 
+subquestion: |
+  **You are required to have at least one, but two or three is preferable.**
+  
+  List them in the order you want them to serve.
+fields:
+  - First name: executor[i].name.first
+  - Middle name: executor[i].name.middle
+    required: False
+  - Last name: executor[i].name.last
+  - Suffix: executor[i].name.suffix
+    required: False
+    code: |
+      name_suffix()
+  - Address: executor[i].address.address
+    address autocomplete: True
+  - City: executor[i].address.city
+  - State: executor[i].address.state
+    code: |
+      states_list()
+  - Zip: executor[i].address.zip
+    required: False
+  - Phone Number: executor[i].phone_number
+    datatype: phone_number
+    validate: phone_number_is_valid
+    hint: (XXX) XXX-XXXX
+---
+question: | 
+  **Will - Trustees**
+subquestion: |
+  #### Let's gather information about individuals you want to serve as **trustee** if a beneficiary is either a minor or is disabled or incapitated.
+field: trustee.there_are_any
+---
+table: trustee.table
+rows: trustee
+columns: 
+  - Name: row_item
+  - Address: row_item.address
+  - Phone Number: row_item.phone_number
+edit:
+  - name.first
+---
+question: | 
+  Persons Named as **Trustee** in Your Will
+subquestion: |
+  So far you have added ${trustee.number_as_word()} **${ trustee.as_noun() }**.
+  
+  Once you are done adding people, press or click continue.
+  
+  ${trustee.table}
+  ${trustee.add_action() }
+field: review_trustee
+---
+question: |
+  ${ordinal(i, capitalize=True)} Trustee's Information 
+subquestion: |
+  **You are required to have at least one, but two or three is preferable.**
+  
+  List them in the order you want them to serve.
+fields:
+  - First name: trustee[i].name.first
+  - Middle name: trustee[i].name.middle
+    required: False
+  - Last name: trustee[i].name.last
+  - Suffix: trustee[i].name.suffix
+    required: False
+    code: |
+      name_suffix()
+  - Address: trustee[i].address.address
+    address autocomplete: True
+  - City: trustee[i].address.city
+  - State: trustee[i].address.state
+    code: |
+      states_list()
+  - Zip: trustee[i].address.zip
+    required: False
+  - Phone Number: trustee[i].phone_number
+    datatype: phone_number
+    validate: phone_number_is_valid
+    hint: (XXX) XXX-XXXX
+---
+mandatory: True
+question: |
+  Your **${ executor.as_noun(capitalize=True) }** and Your **${ trustee.as_noun(capitalize=True) }**:
+subquestion: | 
+  * **${ executor.as_noun(capitalize=True) }**: ${executor} (listed in the order they will serve). 
+  * **${ trustee.as_noun(capitalize=True) }**: ${trustee} (listed in the order they will serve). 
+---
+mandatory: True
+event: final_screen
+question: |
+  Here are your documents, ${ client }.
