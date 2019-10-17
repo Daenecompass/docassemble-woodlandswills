@@ -1,0 +1,38 @@
+metadata:
+ title: Woodlands Wills
+ short title: Woodlands Wills
+ description: This will assemble a simple will and incapacity planning documents.
+ authors:
+   - name: James W. "Mitch" Mitchell
+     organization: Gauntt Koen Binney & Kidd, LLP
+ revision_date: 2019-10-16
+---
+modules:
+  - docassemble.base.core
+  - docassemble.base.util
+---
+features:
+  navigation:  True
+  progress bar: True
+---
+include:
+  - client.yml
+  - spouse.yml
+  - children.yml
+  - dpoa_agent.yml
+  - agents.yml
+  - hcdirective.yml
+  - hipaa.yml
+  - guardian.yml
+  - guardian_of_children.yml
+  - will.yml
+---
+question: Here are your documents.
+attachments:
+  - name: A *Will* if you will
+    filename: simplest_of_wills
+    content file: will.md
+  - name: A *Healthcare Directive*
+    filename: healthcare_directive
+    content file: hc_directive.md
+mandatory: True
