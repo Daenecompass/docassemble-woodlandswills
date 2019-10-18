@@ -5,7 +5,7 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-10-16
+ revision_date: 2019-10-17
 ---
 modules:
   - docassemble.base.core
@@ -28,11 +28,13 @@ include:
   - will.yml
 ---
 question: Here are your documents.
+allow downloading: True
+zip filename: Will_Package_${ client.name.first }.zip
 attachments:
-  - name: A *Will* if you will
-    filename: simplest_of_wills
+  - name: Your *Will*
+    filename: Will_${ client.name.first }
     content file: will.md
-  - name: A *Healthcare Directive*
-    filename: healthcare_directive
+  - name: Your *Healthcare Directive*
+    filename: Healthcare_Directive_${ client.name.first }
     content file: hc_directive.md
 mandatory: True
