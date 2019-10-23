@@ -1,28 +1,13 @@
 metadata:
- title: Woodlands Wills
- short title: WW
+ title: WOODLANDS WILLS
+ short title: WOODLANDS WILLS
  description: This will assemble a simple will and incapacity planning documents.
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-10-10
+ revision_date: 2019-10-22
 ---
-modules:
-  - docassemble.base
----
-include:
-  - basic-questions.yml
----
-default role: client
-code: |
-  if user_logged_in() and user_has_privilege('advocate'):
-    user = advocate
-    role = 'advocate'
-  else:
-    user = client
-    role = 'client'
-  set_info(user=user, role=role)
----
+mandatory: True
 question: |
   What is ${ client.object_possessive('name') }?
 fields:
@@ -36,6 +21,7 @@ fields:
     required: False
     code: |
       name_suffix()
+section: About You
 ---
 question: |
   What are ${ client.object_possessive('preferred pronouns') }?
@@ -45,18 +31,21 @@ choices:
   - Female: female
   - Neutral: neutral
 ---
+mandatory: True
 question: |
   What is ${ client.object_possessive('email address') }?
 fields:
   - Email: client.email
     datatype: email
 ---
+mandatory: True
 question: |
   What is ${ client.object_possessive('date of birth') }?
 fields:
   - Date of Birth: client.birthdate
     datatype: date
 ---
+mandatory: True
 question: |
   What is ${ client.object_possessive('phone number') }?
 fields:
@@ -65,6 +54,7 @@ fields:
     validate: phone_number_is_valid
     hint: (XXX) XXX-XXXX
 ---
+mandatory: True
 question: |
   What is ${ client.object_possessive('home address') }?
 fields:
@@ -77,13 +67,3 @@ fields:
   - Zip: client.address.zip
     required: False
   - County: client.address.county
----
-mandatory: True
-question: |
-  You are
-subquestion: |
-  Thank you, ${ client.name.first }.  ${ client.object_possessive('date of birth', capitalize=True) } is  ${ client.birthdate }.
-  
-  ${ client.object_possessive('email address', capitalize=True) } is ${ client.email } and ${ client.object_possessive('phone number') } is ${ client.phone_number }.
-  
-  You live at ${ client.address }.

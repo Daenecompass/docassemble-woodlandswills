@@ -1,15 +1,11 @@
 metadata:
- title: Woodlands Wills
- short title: WW
+ title: WOODLANDS WILLS
+ short title: WOODLANDS WILLS
  description: This will assemble a simple will and incapacity planning documents.
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-10-10
----
-modules:
-  - docassemble.base.core
-  - docassemble.base.util
+ revision_date: 2019-10-22
 ---
 objects:
   - authorized_person: DAList.using(object_type=Individual,there_is_another=False)
@@ -26,6 +22,7 @@ subquestion: |
 
   Health care providers given a copy of this document may disclose your protected health information to the **authorized persons** that you name in this **Authorization for Disclosure of Protected Health Information**. 
 field: authorized_person.there_are_any
+section: HIPAA Authorization
 ---
 table: authorized_person.table
 rows: authorized_person
@@ -75,14 +72,3 @@ fields:
     datatype: phone_number
     validate: phone_number_is_valid
     hint: (XXX) XXX-XXXX
----
-mandatory: True
-question: |
-  Your **${ authorized_person.as_noun() }**:
-subquestion: | 
-  ${authorized_person}
----
-mandatory: True
-event: final_screen
-question: |
-  Here are your documents, ${ client }.

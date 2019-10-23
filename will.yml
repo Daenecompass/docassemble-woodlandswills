@@ -1,35 +1,56 @@
 metadata:
- title: Woodlands Wills
- short title: WW
+ title: WOODLANDS WILLS
+ short title: WOODLANDS WILLS
  description: This will assemble a simple will and incapacity planning documents.
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-10-12
---- 
-modules:
-  - docassemble.base.core
-  - docassemble.base.util
+ revision_date: 2019-10-22
+---
+question: |
+  What is ${ client.object_possessive('name') }?
+fields:
+  - First Name: client.name.first
+    default: ${ client.first_name_hint() }
+  - Middle Name: client.name.middle
+    required: False
+  - Last Name: client.name.last
+    default: ${ client.last_name_hint() }
+  - Suffix: client.name.suffix
+    required: False
+    code: |
+      name_suffix()
+---
+question: |
+  What is ${ client.possessive('spouse') }'s name?
+subquestion: |
+ Provide full name as it appears on ${ client.possessive('spouse') }'s driver's license, passport, or similar identification.
+fields:
+  - First Name: spouse.name.first
+    default: ${ spouse.first_name_hint() }
+  - Middle Name: spouse.name.middle
+    required: False
+  - Last Name: spouse.name.last
+    default: ${ spouse.last_name_hint() }
+  - Suffix: spouse.name.suffix
+    required: False
+    code: |
+      name_suffix()
 ---
 objects:
   - executor: DAList.using(object_type=Individual,there_is_another=False)
-  - trustee: DAList.using(object_type=Individual,there_is_another=False)
 ---
 mandatory: True
 code: |
   if executor.there_are_any:
     review_executor
 ---
-mandatory: True
-code: |
-  if trustee.there_are_any:
-    review_trustee
----
 question: | 
   **Will - Executors**
 subquestion: |
   #### Let's gather information about individuals you want to serve as **executor** to carry out the terms of your Will.  
 field: executor.there_are_any
+section: Will
 ---
 table: executor.table
 rows: executor
@@ -78,69 +99,3 @@ fields:
     datatype: phone_number
     validate: phone_number_is_valid
     hint: (XXX) XXX-XXXX
----
-question: | 
-  **Will - Trustees**
-subquestion: |
-  #### Let's gather information about individuals you want to serve as **trustee** if a beneficiary is either a minor or is disabled or incapitated.
-field: trustee.there_are_any
----
-table: trustee.table
-rows: trustee
-columns: 
-  - Name: row_item
-  - Address: row_item.address
-  - Phone Number: row_item.phone_number
-edit:
-  - name.first
----
-question: | 
-  Persons Named as **Trustee** in Your Will
-subquestion: |
-  So far you have added ${trustee.number_as_word()} **${ trustee.as_noun() }**.
-  
-  Once you are done adding people, press or click continue.
-  
-  ${trustee.table}
-  ${trustee.add_action() }
-field: review_trustee
----
-question: |
-  ${ordinal(i, capitalize=True)} Trustee's Information 
-subquestion: |
-  **You are required to have at least one, but two or three is preferable.**
-  
-  List them in the order you want them to serve.
-fields:
-  - First name: trustee[i].name.first
-  - Middle name: trustee[i].name.middle
-    required: False
-  - Last name: trustee[i].name.last
-  - Suffix: trustee[i].name.suffix
-    required: False
-    code: |
-      name_suffix()
-  - Address: trustee[i].address.address
-    address autocomplete: True
-  - City: trustee[i].address.city
-  - State: trustee[i].address.state
-    code: |
-      states_list()
-  - Zip: trustee[i].address.zip
-    required: False
-  - Phone Number: trustee[i].phone_number
-    datatype: phone_number
-    validate: phone_number_is_valid
-    hint: (XXX) XXX-XXXX
----
-mandatory: True
-question: |
-  Your **${ executor.as_noun(capitalize=True) }** and Your **${ trustee.as_noun(capitalize=True) }**:
-subquestion: | 
-  * **${ executor.as_noun(capitalize=True) }**: ${executor} (listed in the order they will serve). 
-  * **${ trustee.as_noun(capitalize=True) }**: ${trustee} (listed in the order they will serve). 
----
-mandatory: True
-event: final_screen
-question: |
-  Here are your documents, ${ client }.

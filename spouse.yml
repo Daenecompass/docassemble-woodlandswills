@@ -1,27 +1,20 @@
 metadata:
- title: Woodlands Wills
- short title: WW
+ title: WOODLANDS WILLS
+ short title: WOODLANDS WILLS
  description: This will assemble a simple will and incapacity planning documents.
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-10-10
+ revision_date: 2019-10-22
 ---
-modules:
-  - docassemble.base
----
-include:
-  - basic-questions.yml
----
-default role: client
+mandatory: True
 code: |
-  if user_logged_in() and user_has_privilege('advocate'):
-    user = advocate
-    role = 'advocate'
-  else:
-    user = client
-    role = 'client'
-  set_info(user=user, role=role)
+  spouse_intro
+  review_marital_status
+---
+question: We will gather information about your spouse, if you have one.
+field: spouse_intro
+section: About Your Spouse
 ---
 question: |
 	Are you married?
@@ -78,7 +71,6 @@ fields:
     validate: phone_number_is_valid
     hint: (XXX) XXX-XXXX
 ---
-mandatory: True
 question: |
   You are
   ${ marital_status }.
@@ -91,3 +83,4 @@ subquestion: |
   % else:
   Thank you, ${ client.name.first }. You just made your interview shorter.
   % endif
+field: review_marital_status

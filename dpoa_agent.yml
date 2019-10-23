@@ -1,16 +1,12 @@
 metadata:
- title: Woodlands Wills
- short title: WW
+ title: WOODLANDS WILLS
+ short title: WOODLANDS WILLS
  description: This will assemble a simple will and incapacity planning documents.
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-10-10
+ revision_date: 2019-10-22
 --- 
-modules:
-  - docassemble.base.core
-  - docassemble.base.util
----
 objects:
   - financial_agent: DAList.using(object_type=Individual,there_is_another=False)
 ---
@@ -31,6 +27,7 @@ subquestion: |
   **Durable** means that this power of attorney remains effective during your incapacity (i.e., when you are unable to conduct your own financial or business affairs).
 
 field: financial_agent.there_are_any
+section: Financial Agent
 ---
 table: financial_agent.table
 rows: financial_agent
@@ -80,14 +77,3 @@ fields:
     datatype: phone_number
     validate: phone_number_is_valid
     hint: (XXX) XXX-XXXX
----
-mandatory: True
-question: |
-  Your **${ financial_agent.as_noun() }**:
-subquestion: | 
-  ${financial_agent} (listed in the order they will serve).
----
-mandatory: True
-event: final_screen
-question: |
-  Here are your documents, ${ client }.

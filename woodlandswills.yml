@@ -1,40 +1,153 @@
 metadata:
- title: Woodlands Wills
- short title: Woodlands Wills
+ title: WOODLANDS WILLS
+ short title: WOODLANDS WILLS
  description: This will assemble a simple will and incapacity planning documents.
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-10-17
----
-modules:
-  - docassemble.base.core
-  - docassemble.base.util
+ revision_date: 2019-10-22
 ---
 features:
-  navigation:  True
+  css: font.css
+---
+# objects:
+#  - company_logo: DAStaticFile.using(filename='Woodlands_Wills-logo-white.png')
+---
+# mandatory: True
+# code: |
+#  set_parts(title='Woodlands Wills', logo='<img src="' + company_logo.url_for() + '" style="height: 20px; width: 157px;">')
+---
+default role: client
+code: |
+  if user_logged_in() and user_has_privilege('advocate'):
+    user = advocate
+    role = 'advocate'
+  else:
+    user = client
+    role = 'client'
+  set_info(user=user, role=role)
+---
+sections:
+  - Welcome
+  - Background Info:
+    - About You
+    - About Your Spouse
+    - About Your Children
+  - Incapacity Planning:
+    - Financial Agent
+    - Medical Agent
+    - Medical Directive
+    - HIPAA Authorization
+    - Guardian (You)
+    - Guardian (Children)
+  - Will
+  - Your Completed Documents
+---
+features:
+  navigation:  horizontal
   progress bar: True
+  question back button: True
+---
+mandatory: True
+code: |
+  menu_items = [ action_menu_item('Roadmap', 'road_map') ]
 ---
 include:
+  - basic-questions.yml
+  - introduction.yml
   - client.yml
   - spouse.yml
   - children.yml
+  - incapacity.yml
   - dpoa_agent.yml
-  - agents.yml
-  - hcdirective.yml
+  - hc_agent.yml
+  - hc_directive.yml
   - hipaa.yml
   - guardian.yml
   - guardian_of_children.yml
   - will.yml
 ---
+event: road_map
+question: |
+  Roadmap
+subquestion: |
+  You are currently in the
+  **${ nav.get_section(display=True) }**
+  section.
+
+  ${ nav }
+
+  Press "Continue" to resume the
+  interview.
+buttons:
+  Continue: continue
+---
 question: Here are your documents.
 allow downloading: True
-zip filename: Will_Package_${ client.name.first }.zip
-attachments:
-  - name: Your *Will*
-    filename: Will_${ client.name.first }
-    content file: will.md
-  - name: Your *Healthcare Directive*
-    filename: Healthcare_Directive_${ client.name.first }
-    content file: hc_directive.md
-mandatory: True
+zip filename: Will_Package_${ space_to_underscore(client.name.first) }.zip
+attachment code: document_list
+mandatory: True 
+section: Your Completed Documents
+progress: 100
+valid formats:
+  - pdf
+---
+code: |
+  reconsider('client.has_young_children')
+  if client.has_young_children:
+    document_list = [financial_poa, 
+                     medical_poa, 
+                     medical_directive, 
+                     hipaa_auth, 
+                     guardian_declaration,
+                     dec_guardian_minor, 
+                     will]
+  else:
+    document_list = [financial_poa, 
+                     medical_poa, 
+                     medical_directive, 
+                     hipaa_auth, 
+                     guardian_declaration, 
+                     will]
+---
+attachment:
+  variable name: financial_poa
+  name: Your Financial Power of Attorney
+  filename: Financial_POA_${ space_to_underscore(client.name.first) }
+  content file: stat_dpoa.md
+---
+attachment:
+  variable name: medical_poa
+  name: Your Medical Power of Attorney
+  filename: Medical_POA_${ space_to_underscore(client.name.first) }
+  content file: med_poa.md
+---
+attachment:
+  variable name: medical_directive
+  name: Your Medical Directive
+  filename: Medical_Directive_${ space_to_underscore(client.name.first) }
+  content file: hc_directive.md
+---
+attachment:
+  variable name: hipaa_auth
+  name: Your HIPAA Authorization
+  filename: HIPAA_Auth_${ space_to_underscore(client.name.first) }
+  content file: hipaa_auth.md
+---
+attachment:
+  variable name: guardian_declaration
+  name: Your Guardian Declaration
+  filename: Guardian_Decl_${ space_to_underscore(client.name.first) }
+  content file: dec_guardian.md
+---
+attachment:
+  variable name: dec_guardian_minor
+  name: Your Guardian Declaration for Minor Children
+  filename: Guardian_Decl_Minor_${ space_to_underscore(client.name.first) }
+  content file: dec_guardian_minor.md
+---
+attachment:
+  variable name: will
+  name: Your Will
+  filename: Will_${ space_to_underscore(client.name.first) }
+  content file: will.md

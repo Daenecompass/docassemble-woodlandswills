@@ -1,23 +1,15 @@
 metadata:
- title: Woodlands Wills
- short title: WW
+ title: WOODLANDS WILLS
+ short title: WOODLANDS WILLS
  description: This will assemble a simple will and incapacity planning documents.
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-10-10
---- 
-modules:
-  - docassemble.base.core
-  - docassemble.base.util
+ revision_date: 2019-10-20
 ---
 objects:
   - child_guardian: DAList.using(object_type=Individual,there_is_another=False)
----
-mandatory: True
-code: |
-  if child_guardian.there_are_any:
-    review_child_guardian
+  - client.child: DAList.using(object_type=Individual,there_is_another=False)
 ---
 question: | 
   **Declaration of Guardian for My Children**
@@ -28,6 +20,7 @@ subquestion: |
   
   Ultimately, the court will decide who will serve as guardian, but this Declaration will be taken into account.
 field: child_guardian.there_are_any
+section: Guardian (Children)
 ---
 table: child_guardian.table
 rows: child_guardian
@@ -78,13 +71,18 @@ fields:
     validate: phone_number_is_valid
     hint: (XXX) XXX-XXXX
 ---
-mandatory: True
-question: |
-  Your **${ child_guardian.as_noun() }**:
-subquestion: |
-  ${child_guardian} (listed in the order they will serve).
+code: |
+  has_young_children = False
+  for child in client.child:
+    if child.birthdate.plus(years=18) > today():
+      has_young_children = True
+  client.has_young_children = has_young_children
+  del has_young_children
 ---
 mandatory: True
-event: final_screen
-question: |
-  Here are your documents, ${ client }.
+code: |
+  reconsider('client.has_young_children')
+  if client.has_young_children:
+    if child_guardian.there_are_any:
+      review_child_guardian
+    

@@ -1,30 +1,31 @@
 metadata:
-  title: Woodlands Wills
-  short title: WW
+  title: WOODLANDS WILLS
+  short title: WOODLANDS WILLS
   description: This will assemble a simple will and incapacity planning documents.
   authors:
     - name: James W. "Mitch" Mitchell
       organization: Gauntt Koen Binney & Kidd, LLP
-  revision_date: 2019-10-10
----
-include:
-  - basic-questions.yml
+  revision_date: 2019-10-22
 ---
 objects:
-  - child: DAList.using(object_type=Individual,there_is_another=False)
+  - client.child: DAList.using(object_type=Individual,there_is_another=False)
 ---
 mandatory: True
 code: |
-  if child.there_are_any:
+  children_intro
+  if client.child.there_are_any:
     review_child
-  final_screen
 ---
 question: | 
   Do you have any children?
-yesno: child.there_are_any
+yesno: client.child.there_are_any
 ---
-table: child.table
-rows: child
+question: We will gather information about any children you have.
+field: children_intro
+section: About Your Children
+---
+table: client.child.table
+rows: client.child
 columns: 
   - Name: row_item
   - Birthdate: row_item.birthdate
@@ -34,36 +35,40 @@ edit:
 question: | 
   Children
 subquestion: |
-  So far you have added ${child.number_as_word()} ${ child.as_noun() }.
+  So far you have added ${client.child.number_as_word()} ${ client.child.as_noun() }.
   
-  ${child.table}
+  ${client.child.table}
 
-  ${child.add_action() }
+  ${client.child.add_action() }
 field: review_child
 ---
 question: |
   Information about the ${ordinal(i)} child. 
 fields:
-  - First name: child[i].name.first
-  - Middle name: child[i].name.middle
+  - First name: client.child[i].name.first
+  - Middle name: client.child[i].name.middle
     required: False
-  - Last name: child[i].name.last
-  - Suffix: child[i].name.suffix
+  - Last name: client.child[i].name.last
+  - Suffix: client.child[i].name.suffix
     required: False
     code: |
       name_suffix()
-  - Date of birth: child[i].birthdate
+  - Date of birth: client.child[i].birthdate
     datatype: date
 ---
-mandatory: True
-question: |
-  Your children are ${child}.
+question: You Have Minors
+field: final_review_child
+---
+code: |
+  has_young_children = False
+  for child in client.child:
+    if child.birthdate.plus(years=18) > today():
+      has_young_children = True
+  client.has_young_children = has_young_children
+  del has_young_children
 ---
 mandatory: True
-event: final_screen
-question: |
-  Here are your documents, ${ client }.
-  --- 
-modules:
-  - docassemble.base.core
-  - docassemble.base.util
+code: |
+  reconsider('client.has_young_children')
+  if client.has_young_children:
+    final_review_child

@@ -1,16 +1,12 @@
 metadata:
- title: Woodlands Wills
- short title: WW
+ title: WOODLANDS WILLS
+ short title: WOODLANDS WILLS
  description: This will assemble a simple will and incapacity planning documents.
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-10-10
+ revision_date: 2019-10-22
 --- 
-modules:
-  - docassemble.base.core
-  - docassemble.base.util
----
 objects:
   - guardian: DAList.using(object_type=Individual,there_is_another=False)
 ---
@@ -30,6 +26,7 @@ subquestion: |
   
   You are also signing a Statutory Durable Power of Attorney, so it is unlikely guardianship would be needed. This is because your agent under a durable power of attorney typically is able to carry out your wishes when you are incapacitated.
 field: guardian.there_are_any
+section: Guardian (You)
 ---
 table: guardian.table
 rows: guardian
@@ -79,14 +76,3 @@ fields:
     datatype: phone_number
     validate: phone_number_is_valid
     hint: (XXX) XXX-XXXX
----
-mandatory: True
-question: |
-  Your **${ guardian.as_noun() }**:
-subquestion: | 
-  ${guardian} (listed in the order they will serve). 
----
-mandatory: True
-event: final_screen
-question: |
-  Here are your documents, ${ client }.
