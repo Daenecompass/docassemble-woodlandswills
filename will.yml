@@ -1,11 +1,9 @@
 metadata:
- title: WOODLANDS WILLS
- short title: WOODLANDS WILLS
- description: This will assemble a simple will and incapacity planning documents.
+ description: This is the will part of the document assembly package.
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-10-22
+ revision_date: 2019-11-03
 ---
 question: |
   What is ${ client.object_possessive('name') }?
@@ -45,38 +43,43 @@ code: |
   if executor.there_are_any:
     review_executor
 ---
-question: | 
-  **Will - Executors**
+question: |
+  **Your Will**
 subquestion: |
-  #### Let's gather information about individuals you want to serve as **executor** to carry out the terms of your Will.  
+  #### Let's gather information about individuals you want to serve as {executor} under your Will.
+terms:
+  executor: |
+    The executor is the person who will carry out the terms of your Will. Once
+    appointed by the Court, the executor takes possession of your property,
+    pays any debts, and distributes what is left over to your beneficiaries.
 field: executor.there_are_any
 section: Will
 ---
 table: executor.table
 rows: executor
-columns: 
+columns:
   - Name: row_item
   - Address: row_item.address
   - Phone Number: row_item.phone_number
 edit:
   - name.first
 ---
-question: | 
-  Persons Named as **Executor** in Your Will
+question: |
+  Persons Named as Executor in Your Will
 subquestion: |
-  So far you have added ${executor.number_as_word()} **${ executor.as_noun() }**.
-  
+  So far you have added ${executor.number_as_word()} ${ executor.as_noun() }.
+
   Once you are done adding people, press or click continue.
-  
+
   ${executor.table}
   ${executor.add_action() }
 field: review_executor
 ---
 question: |
-  ${ordinal(i, capitalize=True)} Executor's Information 
+  ${ordinal(i, capitalize=True)} Executor's Information
 subquestion: |
   **You are required to have at least one, but two or three is preferable.**
-  
+
   List them in the order you want them to serve.
 fields:
   - First name: executor[i].name.first

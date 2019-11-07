@@ -1,11 +1,8 @@
 metadata:
-  title: WOODLANDS WILLS
-  short title: WOODLANDS WILLS
-  description: This will assemble a simple will and incapacity planning documents.
   authors:
     - name: James W. "Mitch" Mitchell
       organization: Gauntt Koen Binney & Kidd, LLP
-  revision_date: 2019-10-22
+  revision_date: 2019-11-03
 ---
 objects:
   - client.child: DAList.using(object_type=Individual,there_is_another=False)
@@ -16,7 +13,7 @@ code: |
   if client.child.there_are_any:
     review_child
 ---
-question: | 
+question: |
   Do you have any children?
 yesno: client.child.there_are_any
 ---
@@ -26,24 +23,24 @@ section: About Your Children
 ---
 table: client.child.table
 rows: client.child
-columns: 
+columns:
   - Name: row_item
   - Birthdate: row_item.birthdate
 edit:
   - name.first
 ---
-question: | 
+question: |
   Children
 subquestion: |
   So far you have added ${client.child.number_as_word()} ${ client.child.as_noun() }.
-  
+
   ${client.child.table}
 
   ${client.child.add_action() }
 field: review_child
 ---
 question: |
-  Information about the ${ordinal(i)} child. 
+  Information about the ${ordinal(i)} child.
 fields:
   - First name: client.child[i].name.first
   - Middle name: client.child[i].name.middle

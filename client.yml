@@ -1,11 +1,8 @@
 metadata:
- title: WOODLANDS WILLS
- short title: WOODLANDS WILLS
- description: This will assemble a simple will and incapacity planning documents.
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-10-22
+ revision_date: 2019-11-03
 ---
 mandatory: True
 question: |

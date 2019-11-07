@@ -1,11 +1,9 @@
 metadata:
- title: WOODLANDS WILLS
- short title: WOODLANDS WILLS
- description: This will assemble a simple will and incapacity planning documents.
+ description: This is the HIPAA authorization part of the document assembly package.
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-10-22
+ revision_date: 2019-11-03
 ---
 objects:
   - authorized_person: DAList.using(object_type=Individual,there_is_another=False)
@@ -15,41 +13,47 @@ code: |
   if authorized_person.there_are_any:
     review_authorized_person
 ---
-question: | 
+question: |
   **Authorization for Disclosure of Protected Health Information**
 subquestion: |
-  #### Let's gather information about individuals who you want to list as **authorized persons** to receive your protected health information.
+  #### Let's gather information about individuals who you want to list as {authorized persons} to receive your {protected health information}.
+  Health care providers given a copy of this document may disclose your protected health information to the {authorized persons}.
+terms:
+  authorized persons: |
+    The persons listed in this document will have access to your medical records.
+  protected health information: |
+    This is defined broadly in the federal law known as HIPAA, which generally means treatment records and billing records.
+    This information cannot be disclosed without your consent.
 
-  Health care providers given a copy of this document may disclose your protected health information to the **authorized persons** that you name in this **Authorization for Disclosure of Protected Health Information**. 
 field: authorized_person.there_are_any
 section: HIPAA Authorization
 ---
 table: authorized_person.table
 rows: authorized_person
-columns: 
+columns:
   - Name: row_item
   - Address: row_item.address
   - Phone Number: row_item.phone_number
 edit:
   - name.first
 ---
-question: | 
+question: |
   Persons Authorized to Receive Protected Health Information
 subquestion: |
   So far you have added ${authorized_person.number_as_word()} **${ authorized_person.as_noun() }**.
-  
+
   Once you are done adding people, press or click continue.
-  
+
   ${authorized_person.table}
 
   ${authorized_person.add_action() }
 field: review_authorized_person
 ---
 question: |
-  ${ordinal(i, capitalize=True)} Authorized Person's Information 
+  ${ordinal(i, capitalize=True)} Authorized Person's Information
 subquestion: |
   **You are required to have at least one to complete this form, but two or three is preferable.**
-  
+
   There is no order. A health care provider may disclose your protected health information to any authorized person listed on the **Authorization for Disclosure of Protected Health Information**.
 fields:
   - First name: authorized_person[i].name.first

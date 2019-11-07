@@ -1,12 +1,10 @@
 metadata:
- title: WOODLANDS WILLS
- short title: WOODLANDS WILLS
- description: This will assemble a simple will and incapacity planning documents.
+ description: This is the guardian declaration part of the document assembly package.
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-10-22
---- 
+ revision_date: 2019-11-03
+---
 objects:
   - guardian: DAList.using(object_type=Individual,there_is_another=False)
 ---
@@ -15,45 +13,54 @@ code: |
   if guardian.there_are_any:
     review_guardian
 ---
-question: | 
+question: |
   **Declaration of Guardian Before Need Arises**
 subquestion: |
-  #### Let's gather information about individuals you want to serve as **guardian** in the event you are incapacitated and there is a need for a court to appoint a guardian. 
-  
-  In this **Declaration of Guardian Before Need Arises**, you are stating your wishes in advance as to who you would want the court to appoint in the event the drastic measure of guardianship is needed.
-  
-  Ultimately, the court will decide who will serve as guardian, but this Declaration will be taken into account.
-  
-  You are also signing a Statutory Durable Power of Attorney, so it is unlikely guardianship would be needed. This is because your agent under a durable power of attorney typically is able to carry out your wishes when you are incapacitated.
+  #### Let's gather information about individuals you want to serve as {guardian} in the event you are {incapacitated}.
+
+  In this Declaration, you are stating your wishes in advance as to who you would want the court to appoint in the event the drastic measure of {guardianship} is needed.
+terms:
+  guardian: |
+    This is someone appointed by the court in the event the drastic measure of guardianship is necessary.
+
+    Ultimately, the court will decide who will serve as guardian, but this Declaration will be taken into account.
+  guardianship: |
+    Guardianship is a court process that might be needed in cases of severe or prolonged incapacity.
+
+    You are also signing a Statutory Durable Power of Attorney, so it is unlikely guardianship would be needed. This is because your agent under a durable power of attorney typically is able to carry out your wishes when you are incapacitated.
+  incapacitated: |
+    This is a state when you are unable to conduct your own affairs.
+
+    In other words, you are unable make normal, rational decisions that are not harmful to yourself or to others.
 field: guardian.there_are_any
 section: Guardian (You)
 ---
 table: guardian.table
 rows: guardian
-columns: 
+columns:
   - Name: row_item
   - Address: row_item.address
   - Phone Number: row_item.phone_number
 edit:
   - name.first
 ---
-question: | 
-  Persons Named in Your **Declaration of Guardian Before Need Arises**
+question: |
+  Persons Named in Your Declaration of Guardian Before Need Arises
 subquestion: |
   So far you have added ${guardian.number_as_word()} **${ guardian.as_noun() }**.
-  
+
   Once you are done adding people, press or click continue.
-  
+
   ${guardian.table}
 
   ${guardian.add_action() }
 field: review_guardian
 ---
 question: |
-  ${ordinal(i, capitalize=True)} Guardian's Information 
+  ${ordinal(i, capitalize=True)} Guardian's Information
 subquestion: |
   **You are required to have at least one, but two or three is preferable.**
-  
+
   List them in the order you want them to serve. Remember that the court ultimately decides who is appointed but will take this written **Declaration of Guardian Before Need Arises** into account.
 fields:
   - First name: guardian[i].name.first

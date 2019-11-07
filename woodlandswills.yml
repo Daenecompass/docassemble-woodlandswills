@@ -1,21 +1,15 @@
 metadata:
- title: WOODLANDS WILLS
- short title: WOODLANDS WILLS
+ title: My Will Package
+ logo: WOODLANDS WILLS
+ tab title: Woodlands Wills - My Will Package
  description: This will assemble a simple will and incapacity planning documents.
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-10-22
+ revision_date: 2019-11-03
 ---
 features:
   css: font.css
----
-# objects:
-#  - company_logo: DAStaticFile.using(filename='Woodlands_Wills-logo-white.png')
----
-# mandatory: True
-# code: |
-#  set_parts(title='Woodlands Wills', logo='<img src="' + company_logo.url_for() + '" style="height: 20px; width: 157px;">')
 ---
 default role: client
 code: |
@@ -86,28 +80,26 @@ question: Here are your documents.
 allow downloading: True
 zip filename: Will_Package_${ space_to_underscore(client.name.first) }.zip
 attachment code: document_list
-mandatory: True 
+mandatory: True
 section: Your Completed Documents
 progress: 100
-valid formats:
-  - pdf
 ---
 code: |
   reconsider('client.has_young_children')
   if client.has_young_children:
-    document_list = [financial_poa, 
-                     medical_poa, 
-                     medical_directive, 
-                     hipaa_auth, 
+    document_list = [financial_poa,
+                     medical_poa,
+                     medical_directive,
+                     hipaa_auth,
                      guardian_declaration,
-                     dec_guardian_minor, 
+                     dec_guardian_minor,
                      will]
   else:
-    document_list = [financial_poa, 
-                     medical_poa, 
-                     medical_directive, 
-                     hipaa_auth, 
-                     guardian_declaration, 
+    document_list = [financial_poa,
+                     medical_poa,
+                     medical_directive,
+                     hipaa_auth,
+                     guardian_declaration,
                      will]
 ---
 attachment:
@@ -115,39 +107,53 @@ attachment:
   name: Your Financial Power of Attorney
   filename: Financial_POA_${ space_to_underscore(client.name.first) }
   content file: stat_dpoa.md
+  valid formats:
+  - pdf
 ---
 attachment:
   variable name: medical_poa
   name: Your Medical Power of Attorney
   filename: Medical_POA_${ space_to_underscore(client.name.first) }
   content file: med_poa.md
+  valid formats:
+  - pdf
 ---
 attachment:
   variable name: medical_directive
   name: Your Medical Directive
   filename: Medical_Directive_${ space_to_underscore(client.name.first) }
   content file: hc_directive.md
+  valid formats:
+  - pdf
 ---
 attachment:
   variable name: hipaa_auth
   name: Your HIPAA Authorization
   filename: HIPAA_Auth_${ space_to_underscore(client.name.first) }
   content file: hipaa_auth.md
+  valid formats:
+  - pdf
 ---
 attachment:
   variable name: guardian_declaration
   name: Your Guardian Declaration
   filename: Guardian_Decl_${ space_to_underscore(client.name.first) }
   content file: dec_guardian.md
+  valid formats:
+  - pdf
 ---
 attachment:
   variable name: dec_guardian_minor
   name: Your Guardian Declaration for Minor Children
   filename: Guardian_Decl_Minor_${ space_to_underscore(client.name.first) }
   content file: dec_guardian_minor.md
+  valid formats:
+  - pdf
 ---
 attachment:
   variable name: will
   name: Your Will
   filename: Will_${ space_to_underscore(client.name.first) }
   content file: will.md
+  valid formats:
+  - pdf
