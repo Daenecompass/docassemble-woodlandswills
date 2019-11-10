@@ -18,6 +18,12 @@ include:
   - spouse.yml
   - children.yml
 ---
+code: |
+  if marital_status == 'married':
+    fee_amount = 1200
+  else:
+    fee_amount = 600
+---
 order:
   - preview
   - signature
@@ -66,4 +72,4 @@ subquestion: |
   of the interview.
 buttons:
   - Pay Now: exit
-    url: https://secure.lawpay.com/pages/gauntt-koen-binney-woodall-kidd-llp/trust?amount=600?reference=${ client.name.last } Flat Fee Will Package ?email=${ client.email}
+    url: https://secure.lawpay.com/pages/gauntt-koen-binney-woodall-kidd-llp/trust?amount=${ fee_amount }?reference=${ client.name.last } Flat Fee Will Package?email=${ client.email}
