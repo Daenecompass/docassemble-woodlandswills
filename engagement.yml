@@ -1,0 +1,69 @@
+metadata:
+ title: My Will Package
+ logo: WOODLANDS WILLS
+ tab title: Woodlands Wills - My Will Package
+ description: This will assemble a simple will and incapacity planning documents.
+ authors:
+   - name: James W. "Mitch" Mitchell
+     organization: Gauntt Koen Binney & Kidd, LLP
+ revision_date: 2019-11-08
+---
+features:
+  css: font.css
+---
+include:
+  - basic-questions.yml
+  - introduction.yml
+  - client.yml
+  - spouse.yml
+  - children.yml
+---
+order:
+  - preview
+  - signature
+  - payment
+---
+id: preview
+mandatory: True
+question: Please review your Engagement Agreement.
+subquestion: |
+  Tapping or clicking on the image opens the PDF for download/viewing.
+
+  ${ engagement }
+
+  Once you have reviewed, press Continue to sign.
+field: sign
+---
+attachment:
+  variable name: engagement
+  name: Engagement Agreement
+  filename: Engagement_Agreement_${ space_to_underscore(client.name.first) }
+  content file: wwengagementnov2019.md
+---
+id: signature
+mandatory: True
+question: Here is your signed Engagement Agreement.
+subquestion: |
+  Once you have saved or emailed yourself a copy of your signed Engagement Agreement,
+  press Continue.
+field: payment
+attachment:
+  variable name: engagementsign
+  name: Signed Engagement Agreement
+  filename: Signed_Engagement_Agreement_${ space_to_underscore(client.name.first) }
+  content file: signengagementnov2019.md
+  valid formats:
+  - pdf
+---
+id: payment
+mandatory: True
+question: Fee Payment
+subquestion: |
+  You will be redirected to our firm's payment processor, LawPay, to make a credit card
+  payment.
+
+  Once you have made your payment, you will be able to proceed with the next steps
+  of the interview.
+buttons:
+  - Pay Now: exit
+    url: https://secure.lawpay.com/pages/gauntt-koen-binney-woodall-kidd-llp/trust?amount=600?reference=${ client.name.last } Flat Fee Will Package ?email=${ client.email}
