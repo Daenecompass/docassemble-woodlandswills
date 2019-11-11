@@ -1,0 +1,31 @@
+metadata:
+ authors:
+   - name: James W. "Mitch" Mitchell
+     organization: Gauntt Koen Binney & Kidd, LLP
+ revision_date: 2019-11-10
+---
+mandatory: True
+question: |
+  Review your answers so far
+review:
+  - note: |
+      Tap the buttons below to cycle back through your answers and to change
+      anything you need.
+  - note: |
+      #### Your info
+  - Revisit your info: review_client
+    button: |
+      Check your work, ${ client[0].name.first }.
+  - note: |
+      #### Your spouse's info
+    show if: spouse
+  - Revisit spouse: review_marital_status
+    button: |
+      Double-check ${ spouse[0].name.first }'s information.
+  - note: |
+      #### Your children
+    show if: client.child.there_are_any
+  - Revisit children: review_child
+    button: |
+      Right now you have listed ${ client.child }.
+field: answers_reviewed
