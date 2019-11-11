@@ -52,6 +52,7 @@ include:
   - client.yml
   - spouse.yml
   - children.yml
+  - review_people.yml
   - incapacity.yml
   - dpoa_agent.yml
   - hc_agent.yml
