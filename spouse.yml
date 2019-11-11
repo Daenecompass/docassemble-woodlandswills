@@ -2,7 +2,7 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-11-03
+ revision_date: 2019-11-10
 ---
 mandatory: True
 code: |
@@ -13,70 +13,84 @@ question: We will gather information about your spouse, if you have one.
 field: spouse_intro
 section: About Your Spouse
 ---
-question: |
-	Are you married?
-field: marital_status
-choices:
-  - Yes: married
-  - No: not married
+objects:
+  - spouse: DAList.using(object_type=Individual,there_is_another=False, maximum_number=1)
 ---
 question: |
-  What is ${ client.possessive('spouse') }'s name?
+	Are you married?
+yesno: spouse.there_are_any
+---
+question: |
+  What is your spouse's name?
 subquestion: |
- Provide full name as it appears on ${ client.possessive('spouse') }'s driver's license, passport, or similar identification.
+ Provide the full name as it appears on your spouse's driver's license, passport, or similar identification.
 fields:
-  - First Name: spouse.name.first
-    default: ${ spouse.first_name_hint() }
-  - Middle Name: spouse.name.middle
+  - First Name: spouse[i].name.first
+    default: ${ spouse[i].first_name_hint() }
+  - Middle Name: spouse[i].name.middle
     required: False
-  - Last Name: spouse.name.last
-    default: ${ spouse.last_name_hint() }
-  - Suffix: spouse.name.suffix
+  - Last Name: spouse[i].name.last
+    default: ${ spouse[i].last_name_hint() }
+  - Suffix: spouse[i].name.suffix
     required: False
     code: |
       name_suffix()
 ---
 question: |
-  What are ${ spouse.name.first }'s preferred pronouns?
-field: spouse.pronouns
+  What are ${ spouse[i].name.first }'s preferred pronouns?
+field: spouse[i].pronouns
 choices:
   - Male: male
   - Female: female
   - Neutral: neutral
 ---
 question: |
-  What is ${ spouse.name.first }'s email address?
+  What is ${ spouse[i].name.first }'s email address?
 fields:
-  - Email: spouse.email
+  - Email: spouse[i].email
     datatype: email
 ---
 question: |
-  What is ${ spouse.name.first }'s date of birth?
+  What is ${ spouse[i].name.first }'s date of birth?
 fields:
-  - Date of Birth: spouse.birthdate
+  - Date of Birth: spouse[i].birthdate
     datatype: date
 ---
 question: |
-  What is ${ spouse.name.first }'s cell phone number?
+  What is ${ spouse[i].name.first }'s cell phone number?
 subquestion: |
   Make it pretty. This will appear in your completed documents.
 
-  We also may use this number to call or text ${ spouse.name.first }.
+  We also may use this number to call or text ${ spouse[i].name.first }.
 fields:
-  - Phone Number: spouse.phone_number
+  - Phone Number: spouse[i].phone_number
     datatype: phone_number
     validate: phone_number_is_valid
     hint: (XXX) XXX-XXXX
 ---
+table: spouse.table
+rows: spouse
+columns:
+  - Name: row_item.name
+  - Birthdate: row_item.birthdate
+  - Email: row_item.email
+  - Phone: row_item.phone_number
+edit:
+  - name.first
+  - birthdate
+  - email
+  - phone_number
+---
 question: |
-  You are
-  ${ marital_status }.
+  % if spouse.there_are_any:
+  You are married.
+  % else:
+  You are not married.
+  % endif
 subquestion: |
-  % if marital_status == 'married':
-  Thank you, ${ client.name.first }. Your spouse is ${ spouse }.  ${ spouse.name.first }'s date of birth is  ${ spouse.birthdate }.
-
-  ${ spouse.name.first }'s email address is ${ spouse.email } and cell phone number is ${ spouse.phone_number }.
-
+  % if spouse.there_are_any:
+  Here is the information you provided for your spouse.
+  ${ spouse.table }
   % else:
   Thank you, ${ client.name.first }. You just made your interview shorter.
   % endif

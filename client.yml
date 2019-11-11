@@ -2,27 +2,34 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-11-03
+ revision_date: 2019-11-10
+---
+objects:
+  - client: DAList.using(object_type=Individual,there_are_any=True, there_is_another=False, maximum_number=1)
+---
+mandatory: True
+code: |
+  review_client
 ---
 mandatory: True
 question: |
-  What is ${ client.object_possessive('name') }?
+  What is your name?
 fields:
-  - First Name: client.name.first
-    default: ${ client.first_name_hint() }
-  - Middle Name: client.name.middle
+  - First Name: client[i].name.first
+    default: ${ client[i].first_name_hint() }
+  - Middle Name: client[i].name.middle
     required: False
-  - Last Name: client.name.last
-    default: ${ client.last_name_hint() }
-  - Suffix: client.name.suffix
+  - Last Name: client[i].name.last
+    default: ${ client[i].last_name_hint() }
+  - Suffix: client[i].name.suffix
     required: False
     code: |
       name_suffix()
 section: About You
 ---
 question: |
-  What are ${ client.object_possessive('preferred pronouns') }?
-field: client.pronouns
+  What are your preferred pronouns?
+field: client[i].pronouns
 choices:
   - Male: male
   - Female: female
@@ -30,37 +37,58 @@ choices:
 ---
 mandatory: True
 question: |
-  What is ${ client.object_possessive('email address') }?
+  What is your email address?
 fields:
-  - Email: client.email
+  - Email: client[i].email
     datatype: email
 ---
 mandatory: True
 question: |
-  What is ${ client.object_possessive('date of birth') }?
+  What is is your date of birth?
 fields:
-  - Date of Birth: client.birthdate
+  - Date of Birth: client[i].birthdate
     datatype: date
 ---
 mandatory: True
 question: |
-  What is ${ client.object_possessive('phone number') }?
+  What is your phone number?
 fields:
-  - Phone Number: client.phone_number
+  - Phone Number: client[i].phone_number
     datatype: phone_number
     validate: phone_number_is_valid
     hint: (XXX) XXX-XXXX
 ---
 mandatory: True
 question: |
-  What is ${ client.object_possessive('home address') }?
+  What is your home address?
 fields:
-  - Address: client.address.address
+  - Address: client[i].address.address
     address autocomplete: True
-  - City: client.address.city
-  - State: client.address.state
+  - City: client[i].address.city
+  - State: client[i].address.state
     code: |
       states_list()
-  - Zip: client.address.zip
+  - Zip: client[i].address.zip
     required: False
-  - County: client.address.county
+  - County: client[i].address.county
+---
+table: client.table
+rows: client
+columns:
+  - Name: row_item.name
+  - Birthdate: row_item.birthdate
+  - Address: row_item.address.address
+  - Email: row_item.email
+  - Phone: row_item.phone_number
+edit:
+  - name.first
+  - birthdate
+  - address.address
+  - email
+  - phone_number
+---
+question: |
+  Here is the information you provided.
+subquestion: |
+  ${ client.table }
+field: review_client
