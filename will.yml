@@ -3,7 +3,7 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-11-03
+ revision_date: 2019-11-09
 ---
 question: |
   What is ${ client.object_possessive('name') }?
@@ -46,7 +46,7 @@ code: |
 question: |
   **Your Will**
 subquestion: |
-  #### Let's gather information about individuals you want to serve as {executor} under your Will.
+  Let's gather information about individuals you want to serve as {executor} under your Will.
 terms:
   executor: |
     The executor is the person who will carry out the terms of your Will. Once
@@ -67,7 +67,7 @@ edit:
 question: |
   Persons Named as Executor in Your Will
 subquestion: |
-  So far you have added ${executor.number_as_word()} ${ executor.as_noun() }.
+  So far you have added ${executor.number_as_word()} **${ executor.as_noun() }**.
 
   Once you are done adding people, press or click continue.
 

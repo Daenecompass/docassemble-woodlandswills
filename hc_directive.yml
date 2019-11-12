@@ -3,7 +3,7 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-11-03
+ revision_date: 2019-11-09
 ---
 mandatory: True
 code: |
@@ -13,7 +13,7 @@ code: |
 question: |
   **Directive to Physicians and Family or Surrogates**
 subquestion: |
-  #### Let's gather information about your wishes for treatment in the event you become {incapacitated}.
+  Let's gather information about your wishes for treatment in the event you become {incapacitated}.
 
   The {Directive to Physicians and Family or Surrogates} provides three choices for when you are diagnosed with either a {terminal condition} or an {irreversible condition}.
 terms:

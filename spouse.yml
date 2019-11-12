@@ -2,7 +2,7 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-11-10
+ revision_date: 2019-11-12
 ---
 mandatory: True
 code: |
@@ -68,16 +68,55 @@ fields:
     validate: phone_number_is_valid
     hint: (XXX) XXX-XXXX
 ---
+question: |
+  What is ${ spouse[i].name.first }'s address?
+subquestion: |
+fields:
+  - Existing or New: spouse[i].address.existing_or_new
+    datatype: radio
+    default: Existing
+    choices:
+      - Existing
+      - New
+  - Address: spouse[i].address
+    show if:
+      variable: spouse[i].address.existing_or_new
+      is: Existing
+    choices:
+      - ${ client[i].address }
+  - Address: spouse[i].address.address
+    address autocomplete: True
+    show if:
+      variable: spouse[i].address.existing_or_new
+      is: New
+  - City: spouse[i].address.city
+    show if:
+      variable: spouse[i].address.existing_or_new
+      is: New
+  - State: spouse[i].address.state
+    show if:
+      variable: spouse[i].address.existing_or_new
+      is: New
+    code: |
+      states_list()
+  - Zip: spouse[i].address.zip
+    required: False
+    show if:
+      variable: spouse[i].address.existing_or_new
+      is: New
+---
 table: spouse.table
 rows: spouse
 columns:
   - Name: row_item.name
   - Birthdate: row_item.birthdate
+  - Address: row_item.address
   - Email: row_item.email
   - Phone: row_item.phone_number
 edit:
   - name.first
   - birthdate
+  - address
   - email
   - phone_number
 ---
@@ -92,6 +131,6 @@ subquestion: |
   Here is the information you provided for your spouse.
   ${ spouse.table }
   % else:
-  Thank you, ${ client.name.first }. You just made your interview shorter.
+  Thank you, ${ client[0].name.first }. You just made your interview shorter.
   % endif
 field: review_marital_status

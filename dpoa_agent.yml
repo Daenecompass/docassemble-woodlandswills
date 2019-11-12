@@ -3,20 +3,34 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-11-03
+ revision_date: 2019-11-12
 ---
 objects:
-  - financial_agent: DAList.using(object_type=Individual,there_is_another=False)
+  - financial_agent: DAList.using(object_type=Individual)
+---
+table: financial_agent.table
+rows: financial_agent
+columns:
+  - Name: row_item.name
+  - Address: row_item.address
+  - Phone: row_item.phone_number
+edit:
+  - name.first
+  - address
+  - phone_number
 ---
 mandatory: True
-code: |
-  if financial_agent.there_are_any:
-    review_financial_agent
+question: |
+  Review Financial Agents
+subquestion: |
+  Here is the information you provided for your financial agents.
+  ${ financial_agent.table }
+field: financial_agent_review
 ---
 question: |
   **Statutory Durable Power of Attorney**
 subquestion: |
-  #### Let's gather information about individuals you want to designate as your {agent} to make financial or business decisions for you in your {Statutory} {Durable} {Power of Attorney}.
+  Let's gather information about individuals you want to designate as your {agent} to make financial or business decisions for you in your {Statutory} {Durable} {Power of Attorney}.
 terms:
   agent: |
     An agent acting under the Statutory Durable Power of Attorney will have the same power as though they were you for all matters that you specify (you will initial your choices when you sign the power of attorney document).
@@ -29,51 +43,86 @@ terms:
 field: financial_agent.there_are_any
 section: Financial Agent
 ---
-table: financial_agent.table
-rows: financial_agent
-columns:
-  - Name: row_item
-  - Address: row_item.address
-  - Phone Number: row_item.phone_number
-edit:
-  - name.first
----
-question: |
-  Persons Named in Your Statutory Durable Power of Attorney
-subquestion: |
-  So far you have added ${financial_agent.number_as_word()} **${ financial_agent.as_noun() }**.
-
-  Once you are done adding people, press or click continue.
-
-  ${financial_agent.table}
-
-  ${financial_agent.add_action() }
-field: review_financial_agent
----
-question: |
-  ${ordinal(i, capitalize=True)} Agent's Information
+question: Would you like to list another financial agent?
 subquestion: |
   **You are required to have at least one, but two or three is preferable.**
+yesno: financial_agent.there_is_another
+---
+code: |
+  people = spouse.complete_elements() \
+         + financial_agent.complete_elements() \
+         + healthcare_agent.complete_elements() \
+         + authorized_person.complete_elements() \
+         + guardian.complete_elements() \
+         + child_guardian.complete_elements()
+---
+reconsider:
+  - people
+question: |
+  Who do you want to serve as ${ ordinal(i) } financial agent?
+subquestion: |
+  List them in the order you want them to serve. Only one at a time will
+  serve as agent under the power of attorney.
 
-  List them in the order you want them to serve. Only one at a time will serve as agent under the power of attorney.
+  Use the dropdown box to choose from a person whose name you provided earlier,
+  or you may choose to enter information for someone new.
 fields:
-  - First name: financial_agent[i].name.first
+  - Existing or New: financial_agent[i].existing_or_new
+    datatype: radio
+    default: Existing
+    choices:
+      - Existing
+      - New
+  - Person: financial_agent[i]
+    show if:
+      variable: financial_agent[i].existing_or_new
+      is: Existing
+    datatype: object
+    choices: people
+  - First Name: financial_agent[i].name.first
+    show if:
+      variable: financial_agent[i].existing_or_new
+      is: New
   - Middle name: financial_agent[i].name.middle
     required: False
-  - Last name: financial_agent[i].name.last
+    show if:
+      variable: financial_agent[i].existing_or_new
+      is: New
+  - Last Name: financial_agent[i].name.last
+    show if:
+      variable: financial_agent[i].existing_or_new
+      is: New
   - Suffix: financial_agent[i].name.suffix
     required: False
+    show if:
+      variable: financial_agent[i].existing_or_new
+      is: New
     code: |
       name_suffix()
   - Address: financial_agent[i].address.address
     address autocomplete: True
+    show if:
+      variable: financial_agent[i].existing_or_new
+      is: New
   - City: financial_agent[i].address.city
+    show if:
+      variable: financial_agent[i].existing_or_new
+      is: New
   - State: financial_agent[i].address.state
+    show if:
+      variable: financial_agent[i].existing_or_new
+      is: New
     code: |
       states_list()
   - Zip: financial_agent[i].address.zip
     required: False
+    show if:
+      variable: financial_agent[i].existing_or_new
+      is: New
   - Phone Number: financial_agent[i].phone_number
+    show if:
+      variable: financial_agent[i].existing_or_new
+      is: New
     datatype: phone_number
     validate: phone_number_is_valid
     hint: (XXX) XXX-XXXX

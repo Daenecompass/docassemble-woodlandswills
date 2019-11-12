@@ -2,7 +2,7 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-11-10
+ revision_date: 2019-11-12
 ---
 objects:
   - client: DAList.using(object_type=Individual,there_are_any=True, there_is_another=False, maximum_number=1)
@@ -77,13 +77,13 @@ rows: client
 columns:
   - Name: row_item.name
   - Birthdate: row_item.birthdate
-  - Address: row_item.address.address
+  - Address: row_item.address
   - Email: row_item.email
   - Phone: row_item.phone_number
 edit:
   - name.first
   - birthdate
-  - address.address
+  - address
   - email
   - phone_number
 ---

@@ -3,7 +3,7 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-11-03
+ revision_date: 2019-11-09
 ---
 objects:
   - child_guardian: DAList.using(object_type=Individual,there_is_another=False)
@@ -12,7 +12,7 @@ objects:
 question: |
   **Declaration of Guardian for My Children**
 subquestion: |
-  #### Let's gather information about individuals you want to serve as {guardian for your children} if you are deceased or {incapacitated}.
+  Let's gather information about individuals you want to serve as {guardian for your children} if you are deceased or {incapacitated}.
 
   In this Declaration, you are stating your wishes in advance as to who you would want the court to appoint.
 
@@ -91,4 +91,3 @@ code: |
   if client.has_young_children:
     if child_guardian.there_are_any:
       review_child_guardian
-    

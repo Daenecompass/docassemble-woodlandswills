@@ -6,7 +6,7 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-11-08
+ revision_date: 2019-11-12
 ---
 features:
   css: font.css
@@ -19,7 +19,7 @@ include:
   - children.yml
 ---
 code: |
-  if marital_status == 'married':
+  if spouse.there_are_any:
     fee_amount = 1200
   else:
     fee_amount = 600
@@ -43,7 +43,7 @@ field: sign
 attachment:
   variable name: engagement
   name: Engagement Agreement
-  filename: Engagement_Agreement_${ space_to_underscore(client.name.first) }
+  filename: Engagement_Agreement_${ space_to_underscore(client[0].name.first) }
   content file: wwengagementnov2019.md
 ---
 id: signature
@@ -56,7 +56,7 @@ field: payment
 attachment:
   variable name: engagementsign
   name: Signed Engagement Agreement
-  filename: Signed_Engagement_Agreement_${ space_to_underscore(client.name.first) }
+  filename: Signed_Engagement_Agreement_${ space_to_underscore(client[0].name.last) }
   content file: signengagementnov2019.md
   valid formats:
   - pdf
@@ -72,4 +72,4 @@ subquestion: |
   of the interview.
 buttons:
   - Pay Now: exit
-    url: https://secure.lawpay.com/pages/gauntt-koen-binney-woodall-kidd-llp/trust?amount=${ fee_amount }?reference=${ client.name.last } Flat Fee Will Package?email=${ client.email}
+    url: https://secure.lawpay.com/pages/gauntt-koen-binney-woodall-kidd-llp/trust?amount=${ fee_amount }?reference=${ client[0].name.last } Flat Fee Will Package?email=${ client[0].email}

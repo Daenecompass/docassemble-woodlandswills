@@ -3,7 +3,7 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-11-03
+ revision_date: 2019-11-11
 ---
 objects:
   - healthcare_agent: DAList.using(object_type=Individual,there_is_another=False)
@@ -16,7 +16,7 @@ code: |
 question: |
   **Health Care Power of Attorney**
 subquestion: |
-  #### Let's gather information about individuals you want to serve as {healthcare agent}.
+  Let's gather information about individuals you want to serve as {healthcare agent}.
 
   They will be able to make treatment decisions for you in the event you are {incapacitated}.
 terms:

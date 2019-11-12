@@ -3,7 +3,7 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-11-03
+ revision_date: 2019-11-09
 ---
 objects:
   - authorized_person: DAList.using(object_type=Individual,there_is_another=False)
@@ -16,7 +16,7 @@ code: |
 question: |
   **Authorization for Disclosure of Protected Health Information**
 subquestion: |
-  #### Let's gather information about individuals who you want to list as {authorized persons} to receive your {protected health information}.
+  Let's gather information about individuals who you want to list as {authorized persons} to receive your {protected health information}.
   Health care providers given a copy of this document may disclose your protected health information to the {authorized persons}.
 terms:
   authorized persons: |

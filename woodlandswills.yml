@@ -6,7 +6,7 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-11-10
+ revision_date: 2019-11-12
 ---
 features:
   css: font.css
@@ -69,7 +69,7 @@ buttons:
 ---
 question: Here are your documents.
 allow downloading: True
-zip filename: Will_Package_${ space_to_underscore(client.name.first) }.zip
+zip filename: Will_Package_${ space_to_underscore(client[i].name.first) }.zip
 attachment code: document_list
 mandatory: True
 section: Your Completed Documents
@@ -96,7 +96,7 @@ code: |
 attachment:
   variable name: financial_poa
   name: Your Financial Power of Attorney
-  filename: Financial_POA_${ space_to_underscore(client.name.first) }
+  filename: Financial_POA_${ space_to_underscore(client[i].name.first) }
   content file: stat_dpoa.md
   valid formats:
   - pdf
@@ -104,7 +104,7 @@ attachment:
 attachment:
   variable name: medical_poa
   name: Your Medical Power of Attorney
-  filename: Medical_POA_${ space_to_underscore(client.name.first) }
+  filename: Medical_POA_${ space_to_underscore(client[i].name.first) }
   content file: med_poa.md
   valid formats:
   - pdf
@@ -112,7 +112,7 @@ attachment:
 attachment:
   variable name: medical_directive
   name: Your Medical Directive
-  filename: Medical_Directive_${ space_to_underscore(client.name.first) }
+  filename: Medical_Directive_${ space_to_underscore(client[i].name.first) }
   content file: hc_directive.md
   valid formats:
   - pdf
@@ -120,7 +120,7 @@ attachment:
 attachment:
   variable name: hipaa_auth
   name: Your HIPAA Authorization
-  filename: HIPAA_Auth_${ space_to_underscore(client.name.first) }
+  filename: HIPAA_Auth_${ space_to_underscore(client[i].name.first) }
   content file: hipaa_auth.md
   valid formats:
   - pdf
@@ -128,7 +128,7 @@ attachment:
 attachment:
   variable name: guardian_declaration
   name: Your Guardian Declaration
-  filename: Guardian_Decl_${ space_to_underscore(client.name.first) }
+  filename: Guardian_Decl_${ space_to_underscore(client[i].name.first) }
   content file: dec_guardian.md
   valid formats:
   - pdf
@@ -136,7 +136,7 @@ attachment:
 attachment:
   variable name: dec_guardian_minor
   name: Your Guardian Declaration for Minor Children
-  filename: Guardian_Decl_Minor_${ space_to_underscore(client.name.first) }
+  filename: Guardian_Decl_Minor_${ space_to_underscore(client[i].name.first) }
   content file: dec_guardian_minor.md
   valid formats:
   - pdf
@@ -144,7 +144,7 @@ attachment:
 attachment:
   variable name: will
   name: Your Will
-  filename: Will_${ space_to_underscore(client.name.first) }
+  filename: Will_${ space_to_underscore(client[i].name.first) }
   content file: will.md
   valid formats:
   - pdf

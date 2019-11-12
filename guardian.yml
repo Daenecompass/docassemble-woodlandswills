@@ -3,7 +3,7 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-11-03
+ revision_date: 2019-11-09
 ---
 objects:
   - guardian: DAList.using(object_type=Individual,there_is_another=False)
@@ -16,7 +16,7 @@ code: |
 question: |
   **Declaration of Guardian Before Need Arises**
 subquestion: |
-  #### Let's gather information about individuals you want to serve as {guardian} in the event you are {incapacitated}.
+  Let's gather information about individuals you want to serve as {guardian} in the event you are {incapacitated}.
 
   In this Declaration, you are stating your wishes in advance as to who you would want the court to appoint in the event the drastic measure of {guardianship} is needed.
 terms:
