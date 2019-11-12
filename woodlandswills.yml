@@ -6,20 +6,10 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-11-03
+ revision_date: 2019-11-10
 ---
 features:
   css: font.css
----
-default role: client
-code: |
-  if user_logged_in() and user_has_privilege('advocate'):
-    user = advocate
-    role = 'advocate'
-  else:
-    user = client
-    role = 'client'
-  set_info(user=user, role=role)
 ---
 sections:
   - Welcome
@@ -27,6 +17,7 @@ sections:
     - About You
     - About Your Spouse
     - About Your Children
+    - Review Info
   - Incapacity Planning:
     - Financial Agent
     - Medical Agent
@@ -47,7 +38,6 @@ code: |
   menu_items = [ action_menu_item('Roadmap', 'road_map') ]
 ---
 include:
-  - basic-questions.yml
   - introduction.yml
   - client.yml
   - spouse.yml
