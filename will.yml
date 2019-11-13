@@ -61,8 +61,10 @@ reconsider:
 question: |
   Who do you want to serve as ${ ordinal(i) } executor?
 subquestion: |
+ **You are required to have at least one, but two or three is preferable.**
+
   List them in the order you want them to serve. Only one at a time will 
-  serve as agent under the power of attorney.  
+  serve as your executor.  
   
   Use the dropdown box to choose from a person whose name you provided earlier,
   or you may choose to enter information for someone new.

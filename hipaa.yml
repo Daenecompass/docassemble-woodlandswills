@@ -64,9 +64,11 @@ reconsider:
 question: |
   Who do you want to serve as ${ ordinal(i) } authorized person?
 subquestion: |
-  List them in the order you want them to serve. Only one at a time will 
-  serve as agent under the power of attorney.  
-  
+  **You are required to have at least one to complete this form, but two or three is preferable.**
+
+  There is no order. A health care provider may disclose your protected health information 
+  to any authorized person listed on the **Authorization for Disclosure of Protected Health Information**.  
+
   Use the dropdown box to choose from a person whose name you provided earlier,
   or you may choose to enter information for someone new.
 fields:
