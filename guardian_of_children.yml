@@ -68,7 +68,7 @@ reconsider:
 question: |
   Who do you want to serve as ${ ordinal(i) } guardian of your children?
 subquestion: |
-   **You are required to have at least one, but two or three is preferable.**
+  **You are required to have at least one, but two or three is preferable.**
 
   List them in the order you want them to serve. Remember that the court ultimately decides 
   who is appointed but will take this written **Declaration of Guardian for My Children** into account.
