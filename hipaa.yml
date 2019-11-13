@@ -11,8 +11,6 @@ objects:
 table: authorized_person.table
 rows: authorized_person
 columns: 
-  - "#": |
-      row_index + 1
   - Name: row_item.name
   - Address: row_item.address
   - Phone: row_item.phone_number
