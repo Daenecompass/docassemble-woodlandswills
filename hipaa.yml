@@ -1,17 +1,35 @@
 metadata:
- description: This is the HIPAA authorization part of the document assembly package.
+ description: This is the HIPAA declaration part of the document assembly package.
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-11-09
----
+ revision_date: 2019-11-12
+--- 
 objects:
-  - authorized_person: DAList.using(object_type=Individual,there_is_another=False)
+  - authorized_person: DAList.using(object_type=Individual)
+---
+table: authorized_person.table
+rows: authorized_person
+columns: 
+  - "#": |
+      row_index + 1
+  - Name: row_item.name
+  - Address: row_item.address
+  - Phone: row_item.phone_number
+edit:
+  - name.first
+  - address
+  - phone_number
+allow reordering: True
 ---
 mandatory: True
-code: |
-  if authorized_person.there_are_any:
-    review_authorized_person
+question: |
+  Review Authorized Persons
+subquestion: |
+  Here is the information you provided for persons authorized to receive your protected health information.
+  ${ authorized_person.table }  
+  ${ authorized_person.add_action() }
+field: authorized_person_review
 ---
 question: |
   **Authorization for Disclosure of Protected Health Information**
@@ -28,51 +46,86 @@ terms:
 field: authorized_person.there_are_any
 section: HIPAA Authorization
 ---
-table: authorized_person.table
-rows: authorized_person
-columns:
-  - Name: row_item
-  - Address: row_item.address
-  - Phone Number: row_item.phone_number
-edit:
-  - name.first
----
-question: |
-  Persons Authorized to Receive Protected Health Information
+question: Would you like to list another person authorized to receive your protected health information?
 subquestion: |
-  So far you have added ${authorized_person.number_as_word()} **${ authorized_person.as_noun() }**.
-
-  Once you are done adding people, press or click continue.
-
-  ${authorized_person.table}
-
-  ${authorized_person.add_action() }
-field: review_authorized_person
+  **You are required to have at least one, but two or three is preferable.**
+yesno: authorized_person.there_is_another
 ---
+code: |
+  people = spouse.complete_elements() \
+         + financial_agent.complete_elements() \
+         + healthcare_agent.complete_elements() \
+		 + authorized_person.complete_elements() \
+		 + guardian.complete_elements() \
+		 + child_guardian.complete_elements()
+---
+reconsider:
+  - people
 question: |
-  ${ordinal(i, capitalize=True)} Authorized Person's Information
+  Who do you want to serve as ${ ordinal(i) } authorized person?
 subquestion: |
-  **You are required to have at least one to complete this form, but two or three is preferable.**
-
-  There is no order. A health care provider may disclose your protected health information to any authorized person listed on the **Authorization for Disclosure of Protected Health Information**.
+  List them in the order you want them to serve. Only one at a time will 
+  serve as agent under the power of attorney.  
+  
+  Use the dropdown box to choose from a person whose name you provided earlier,
+  or you may choose to enter information for someone new.
 fields:
-  - First name: authorized_person[i].name.first
+  - Existing or New: authorized_person[i].existing_or_new
+    datatype: radio
+    default: Existing
+    choices:
+      - Existing
+      - New
+  - Person: authorized_person[i]
+    show if:
+      variable: authorized_person[i].existing_or_new
+      is: Existing
+    datatype: object
+    choices: people
+  - First Name: authorized_person[i].name.first
+    show if:
+      variable: authorized_person[i].existing_or_new
+      is: New
   - Middle name: authorized_person[i].name.middle
     required: False
-  - Last name: authorized_person[i].name.last
+    show if:
+      variable: authorized_person[i].existing_or_new
+      is: New
+  - Last Name: authorized_person[i].name.last
+    show if:
+      variable: authorized_person[i].existing_or_new
+      is: New
   - Suffix: authorized_person[i].name.suffix
     required: False
+    show if:
+      variable: authorized_person[i].existing_or_new
+      is: New
     code: |
       name_suffix()
   - Address: authorized_person[i].address.address
     address autocomplete: True
+    show if:
+      variable: authorized_person[i].existing_or_new
+      is: New
   - City: authorized_person[i].address.city
+    show if:
+      variable: authorized_person[i].existing_or_new
+      is: New
   - State: authorized_person[i].address.state
+    show if:
+      variable: authorized_person[i].existing_or_new
+      is: New
     code: |
       states_list()
   - Zip: authorized_person[i].address.zip
     required: False
+    show if:
+      variable: authorized_person[i].existing_or_new
+      is: New
   - Phone Number: authorized_person[i].phone_number
+    show if:
+      variable: authorized_person[i].existing_or_new
+      is: New
     datatype: phone_number
     validate: phone_number_is_valid
     hint: (XXX) XXX-XXXX

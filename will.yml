@@ -3,45 +3,33 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-11-09
----
-question: |
-  What is ${ client.object_possessive('name') }?
-fields:
-  - First Name: client.name.first
-    default: ${ client.first_name_hint() }
-  - Middle Name: client.name.middle
-    required: False
-  - Last Name: client.name.last
-    default: ${ client.last_name_hint() }
-  - Suffix: client.name.suffix
-    required: False
-    code: |
-      name_suffix()
----
-question: |
-  What is ${ client.possessive('spouse') }'s name?
-subquestion: |
- Provide full name as it appears on ${ client.possessive('spouse') }'s driver's license, passport, or similar identification.
-fields:
-  - First Name: spouse.name.first
-    default: ${ spouse.first_name_hint() }
-  - Middle Name: spouse.name.middle
-    required: False
-  - Last Name: spouse.name.last
-    default: ${ spouse.last_name_hint() }
-  - Suffix: spouse.name.suffix
-    required: False
-    code: |
-      name_suffix()
+ revision_date: 2019-11-12
 ---
 objects:
   - executor: DAList.using(object_type=Individual,there_is_another=False)
 ---
+table: executor.table
+rows: executor
+columns: 
+  - "#": |
+      row_index + 1
+  - Name: row_item.name
+  - Address: row_item.address
+  - Phone: row_item.phone_number
+edit:
+  - name.first
+  - address
+  - phone_number
+allow reordering: True
+---
 mandatory: True
-code: |
-  if executor.there_are_any:
-    review_executor
+question: |
+  Review Executors
+subquestion: |
+  Here is the information you provided for your executors.
+  ${ executor.table }  
+  ${ executor.add_action() }
+field: executor_review
 ---
 question: |
   **Your Will**
@@ -55,50 +43,86 @@ terms:
 field: executor.there_are_any
 section: Will
 ---
-table: executor.table
-rows: executor
-columns:
-  - Name: row_item
-  - Address: row_item.address
-  - Phone Number: row_item.phone_number
-edit:
-  - name.first
----
-question: |
-  Persons Named as Executor in Your Will
-subquestion: |
-  So far you have added ${executor.number_as_word()} **${ executor.as_noun() }**.
-
-  Once you are done adding people, press or click continue.
-
-  ${executor.table}
-  ${executor.add_action() }
-field: review_executor
----
-question: |
-  ${ordinal(i, capitalize=True)} Executor's Information
+question: Would you like to list another executor?
 subquestion: |
   **You are required to have at least one, but two or three is preferable.**
-
-  List them in the order you want them to serve.
+yesno: executor.there_is_another
+---
+code: |
+  people = spouse.complete_elements() \
+         + financial_agent.complete_elements() \
+         + healthcare_agent.complete_elements() \
+		 + authorized_person.complete_elements() \
+		 + guardian.complete_elements() \
+		 + child_guardian.complete_elements()
+---
+reconsider:
+  - people
+question: |
+  Who do you want to serve as ${ ordinal(i) } executor?
+subquestion: |
+  List them in the order you want them to serve. Only one at a time will 
+  serve as agent under the power of attorney.  
+  
+  Use the dropdown box to choose from a person whose name you provided earlier,
+  or you may choose to enter information for someone new.
 fields:
-  - First name: executor[i].name.first
+  - Existing or New: executor[i].existing_or_new
+    datatype: radio
+    default: Existing
+    choices:
+      - Existing
+      - New
+  - Person: executor[i]
+    show if:
+      variable: executor[i].existing_or_new
+      is: Existing
+    datatype: object
+    choices: people
+  - First Name: executor[i].name.first
+    show if:
+      variable: executor[i].existing_or_new
+      is: New
   - Middle name: executor[i].name.middle
     required: False
-  - Last name: executor[i].name.last
+    show if:
+      variable: executor[i].existing_or_new
+      is: New
+  - Last Name: executor[i].name.last
+    show if:
+      variable: executor[i].existing_or_new
+      is: New
   - Suffix: executor[i].name.suffix
     required: False
+    show if:
+      variable: executor[i].existing_or_new
+      is: New
     code: |
       name_suffix()
   - Address: executor[i].address.address
     address autocomplete: True
+    show if:
+      variable: executor[i].existing_or_new
+      is: New
   - City: executor[i].address.city
+    show if:
+      variable: executor[i].existing_or_new
+      is: New
   - State: executor[i].address.state
+    show if:
+      variable: executor[i].existing_or_new
+      is: New
     code: |
       states_list()
   - Zip: executor[i].address.zip
     required: False
+    show if:
+      variable: executor[i].existing_or_new
+      is: New
   - Phone Number: executor[i].phone_number
+    show if:
+      variable: executor[i].existing_or_new
+      is: New
     datatype: phone_number
     validate: phone_number_is_valid
     hint: (XXX) XXX-XXXX

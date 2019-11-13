@@ -3,11 +3,33 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-11-09
----
+ revision_date: 2019-11-12
+--- 
 objects:
-  - child_guardian: DAList.using(object_type=Individual,there_is_another=False)
-  - client.child: DAList.using(object_type=Individual,there_is_another=False)
+  - child_guardian: DAList.using(object_type=Individual)
+---
+table: child_guardian.table
+rows: child_guardian
+columns: 
+  - "#": |
+      row_index + 1
+  - Name: row_item.name
+  - Address: row_item.address
+  - Phone: row_item.phone_number
+edit:
+  - name.first
+  - address
+  - phone_number
+allow reordering: True
+---
+mandatory: True
+question: |
+  Review Guardian (Children)
+subquestion: |
+  Here is the information you provided for guardians of your children.
+  ${ child_guardian.table }  
+  ${ child_guardian.add_action() }
+field: review_child_guardian
 ---
 question: |
   **Declaration of Guardian for My Children**
@@ -28,51 +50,86 @@ terms:
 field: child_guardian.there_are_any
 section: Guardian (Children)
 ---
-table: child_guardian.table
-rows: child_guardian
-columns:
-  - Name: row_item
-  - Address: row_item.address
-  - Phone Number: row_item.phone_number
-edit:
-  - name.first
----
-question: |
-  Persons Named in Your Declaration of Guardian for My Children
-subquestion: |
-  So far you have added ${child_guardian.number_as_word()} **${ child_guardian.as_noun() }**.
-
-  Once you are done adding people, press or click continue.
-
-  ${child_guardian.table}
-
-  ${child_guardian.add_action() }
-field: review_child_guardian
----
-question: |
-  ${ordinal(i, capitalize=True)} Guardian's Information
+question: Would you like to list another guardian for your children?
 subquestion: |
   **You are required to have at least one, but two or three is preferable.**
-
-  List them in the order you want them to serve. Remember that the court ultimately decides who is appointed but will take this written **Declaration of Guardian for My Children** into account.
+yesno: child_guardian.there_is_another
+---
+code: |
+  people = spouse.complete_elements() \
+         + financial_agent.complete_elements() \
+         + healthcare_agent.complete_elements() \
+		 + authorized_person.complete_elements() \
+		 + guardian.complete_elements() \
+		 + child_guardian.complete_elements()
+---
+reconsider:
+  - people
+question: |
+  Who do you want to serve as ${ ordinal(i) } guardian of your children?
+subquestion: |
+  List them in the order you want them to serve. Only one at a time will 
+  serve as agent under the power of attorney.  
+  
+  Use the dropdown box to choose from a person whose name you provided earlier,
+  or you may choose to enter information for someone new.
 fields:
-  - First name: child_guardian[i].name.first
+  - Existing or New: child_guardian[i].existing_or_new
+    datatype: radio
+    default: Existing
+    choices:
+      - Existing
+      - New
+  - Person: child_guardian[i]
+    show if:
+      variable: child_guardian[i].existing_or_new
+      is: Existing
+    datatype: object
+    choices: people
+  - First Name: child_guardian[i].name.first
+    show if:
+      variable: child_guardian[i].existing_or_new
+      is: New
   - Middle name: child_guardian[i].name.middle
     required: False
-  - Last name: child_guardian[i].name.last
+    show if:
+      variable: child_guardian[i].existing_or_new
+      is: New
+  - Last Name: child_guardian[i].name.last
+    show if:
+      variable: child_guardian[i].existing_or_new
+      is: New
   - Suffix: child_guardian[i].name.suffix
     required: False
+    show if:
+      variable: child_guardian[i].existing_or_new
+      is: New
     code: |
       name_suffix()
   - Address: child_guardian[i].address.address
     address autocomplete: True
+    show if:
+      variable: child_guardian[i].existing_or_new
+      is: New
   - City: child_guardian[i].address.city
+    show if:
+      variable: child_guardian[i].existing_or_new
+      is: New
   - State: child_guardian[i].address.state
+    show if:
+      variable: child_guardian[i].existing_or_new
+      is: New
     code: |
       states_list()
   - Zip: child_guardian[i].address.zip
     required: False
+    show if:
+      variable: child_guardian[i].existing_or_new
+      is: New
   - Phone Number: child_guardian[i].phone_number
+    show if:
+      variable: child_guardian[i].existing_or_new
+      is: New
     datatype: phone_number
     validate: phone_number_is_valid
     hint: (XXX) XXX-XXXX

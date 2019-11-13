@@ -5,20 +5,25 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-11-03
+ revision_date: 2019-11-12
 ---
 mandatory: True
 question: |
   **Welcome**
 subquestion: |
-  #### Roadmap
+  # :map-marked:
 
   ${ nav }
 
   This is your Roadmap, which shows you where you are in the interview.
 
   The Roadmap is always available from the top right dropdown menu.
-right: |
-  *If you are viewing this on a device other than a smartphone, you will see a persistent navigation bar throughout the interview.*
+  
+  Also, if you are viewing this on a device other than a smartphone, 
+  you will see a persistent navigation bar throughout the interview.
 field: intro_to_about_you
 section: Welcome
+under: |
+   ___
+   ###### This is a service of Gauntt Koen Binney & Kidd, LLP.
+   ###### :code: with [Docassemble](https://docassemble.org/) by [Mitch Mitchell](https://woodlandswills.com/)

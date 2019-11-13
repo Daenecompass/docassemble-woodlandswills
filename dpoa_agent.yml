@@ -4,13 +4,15 @@ metadata:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
  revision_date: 2019-11-12
----
+--- 
 objects:
   - financial_agent: DAList.using(object_type=Individual)
 ---
 table: financial_agent.table
 rows: financial_agent
-columns:
+columns: 
+  - "#": |
+      row_index + 1
   - Name: row_item.name
   - Address: row_item.address
   - Phone: row_item.phone_number
@@ -18,13 +20,15 @@ edit:
   - name.first
   - address
   - phone_number
+allow reordering: True
 ---
 mandatory: True
 question: |
   Review Financial Agents
 subquestion: |
   Here is the information you provided for your financial agents.
-  ${ financial_agent.table }
+  ${ financial_agent.table }  
+  ${ financial_agent.add_action() }
 field: financial_agent_review
 ---
 question: |
@@ -52,18 +56,18 @@ code: |
   people = spouse.complete_elements() \
          + financial_agent.complete_elements() \
          + healthcare_agent.complete_elements() \
-         + authorized_person.complete_elements() \
-         + guardian.complete_elements() \
-         + child_guardian.complete_elements()
+		     + authorized_person.complete_elements() \
+		     + guardian.complete_elements() \
+		     + child_guardian.complete_elements()
 ---
 reconsider:
   - people
 question: |
   Who do you want to serve as ${ ordinal(i) } financial agent?
 subquestion: |
-  List them in the order you want them to serve. Only one at a time will
-  serve as agent under the power of attorney.
-
+  List them in the order you want them to serve. Only one at a time will 
+  serve as agent under the power of attorney.  
+  
   Use the dropdown box to choose from a person whose name you provided earlier,
   or you may choose to enter information for someone new.
 fields:
