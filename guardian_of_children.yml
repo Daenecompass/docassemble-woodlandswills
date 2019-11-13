@@ -56,8 +56,7 @@ subquestion: |
 yesno: child_guardian.there_is_another
 ---
 code: |
-  people = spouse.complete_elements() \
-         + financial_agent.complete_elements() \
+  people = financial_agent.complete_elements() \
          + healthcare_agent.complete_elements() \
 		 + authorized_person.complete_elements() \
 		 + guardian.complete_elements() \
