@@ -122,13 +122,13 @@ edit:
 ---
 question: |
   % if spouse.there_are_any:
-  You are married.
+  About Your Spouse
   % else:
   You are not married.
   % endif
 subquestion: |
   % if spouse.there_are_any:
-  Here is the information you provided for your spouse.
+  Here is the information you provided for your spouse.  
   ${ spouse.table }
   % else:
   Thank you, ${ client[0].name.first }. You just made your interview shorter.
