@@ -6,13 +6,12 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-11-12
+ revision_date: 2019-11-14
 ---
 features:
   css: font.css
 ---
 include:
-  - basic-questions.yml
   - introduction.yml
   - client.yml
   - spouse.yml
@@ -45,6 +44,12 @@ attachment:
   name: Engagement Agreement
   filename: Engagement_Agreement_${ space_to_underscore(client[0].name.first) }
   content file: wwengagementnov2019.md
+---
+question: |
+  Please sign your name below.
+signature: client[0].signature
+under: |
+  ${ client[0] }
 ---
 id: signature
 mandatory: True
