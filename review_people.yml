@@ -2,8 +2,9 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-11-10
+ revision_date: 2019-11-14
 ---
+section: Review Info
 mandatory: True
 question: |
   Review your answers so far
@@ -11,6 +12,8 @@ review:
   - note: |
       Tap the buttons below to cycle back through your answers and to change
       anything you need.
+
+      If you are confident your answers are finished, you can press Continue.
   - note: |
       #### Your info
   - Revisit your info: review_client

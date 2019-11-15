@@ -6,11 +6,11 @@ metadata:
  revision_date: 2019-11-12
 ---
 objects:
-  - executor: DAList.using(object_type=Individual,there_is_another=False)
+  - executor: DAList.using(object_type=Individual)
 ---
 table: executor.table
 rows: executor
-columns: 
+columns:
   - "#": |
       row_index + 1
   - Name: row_item.name
@@ -27,9 +27,9 @@ question: |
   Review Executors
 subquestion: |
   Here is the information you provided for your executors.
-  ${ executor.table }  
+  ${ executor.table }
   ${ executor.add_action() }
-field: executor_review
+field: review_executor
 ---
 question: |
   **Your Will**
@@ -52,9 +52,8 @@ code: |
   people = spouse.complete_elements() \
          + financial_agent.complete_elements() \
          + healthcare_agent.complete_elements() \
-		 + authorized_person.complete_elements() \
-		 + guardian.complete_elements() \
-		 + child_guardian.complete_elements()
+		     + authorized_person.complete_elements() \
+		     + guardian.complete_elements() \
 ---
 reconsider:
   - people
@@ -63,9 +62,9 @@ question: |
 subquestion: |
  **You are required to have at least one, but two or three is preferable.**
 
-  List them in the order you want them to serve. Only one at a time will 
-  serve as your executor.  
-  
+  List them in the order you want them to serve. Only one at a time will
+  serve as your executor.
+
   Use the dropdown box to choose from a person whose name you provided earlier,
   or you may choose to enter information for someone new.
 fields:

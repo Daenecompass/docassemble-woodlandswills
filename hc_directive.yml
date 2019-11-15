@@ -1,14 +1,18 @@
 metadata:
- description: This is the healthcare directive part of the document assembly package.
+ description: This is the medical directive part of the document assembly package.
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-11-09
+ revision_date: 2019-11-14
+---
+include:
+  - client.yml
 ---
 mandatory: True
 code: |
-  if hcdirective:
-    review_directive
+  client.terminal_condition
+  client.irreversible_condition
+  review_directive
 ---
 question: |
   **Directive to Physicians and Family or Surrogates**
@@ -28,14 +32,25 @@ terms:
 field: hcdirective
 section: Medical Directive
 ---
+mandatory: True
 question: |
-  Health Care Directive Choices
-subquestion: |
-  Let's review it.
+  Review Medical Directive Choices
+review:
+  - note: |
+      Tap the buttons below to cycle back through your answers and to change
+      anything you need.
 
-  If I have a {terminal condition}: ${ client.terminal_condition }.
-
-  If I have an {irreversible condition}: ${ client.irreversible_condition }.
+      If you are confident your answers are finished, you can press Continue.
+  - note: |
+      #### Terminal Condition
+  - Edit: client.terminal_condition
+    button: |
+       If I have a {terminal condition}: ${ client.terminal_condition }.
+  - note: |
+      #### Irreversible Condition
+  - Edit: client.irreversible_condition
+    button: |
+      If I have an {irreversible condition}: ${ client.irreversible_condition }.
 terms:
   terminal condition: |
     A terminal condition is a condition from which you are expected to die within six months, even with available life-sustaining treatment provided in accordance with prevailing standards of medical care.

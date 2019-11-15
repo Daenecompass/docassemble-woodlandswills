@@ -3,14 +3,14 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-11-12
---- 
+ revision_date: 2019-11-14
+---
 objects:
   - child_guardian: DAList.using(object_type=Individual)
 ---
 table: child_guardian.table
 rows: child_guardian
-columns: 
+columns:
   - "#": |
       row_index + 1
   - Name: row_item.name
@@ -22,12 +22,11 @@ edit:
   - phone_number
 allow reordering: True
 ---
-mandatory: True
 question: |
   Review Guardian (Children)
 subquestion: |
   Here is the information you provided for guardians of your children.
-  ${ child_guardian.table }  
+  ${ child_guardian.table }
   ${ child_guardian.add_action() }
 field: review_child_guardian
 ---
@@ -58,9 +57,8 @@ yesno: child_guardian.there_is_another
 code: |
   people = financial_agent.complete_elements() \
          + healthcare_agent.complete_elements() \
-		 + authorized_person.complete_elements() \
-		 + guardian.complete_elements() \
-		 + child_guardian.complete_elements()
+		     + authorized_person.complete_elements() \
+		     + guardian.complete_elements()
 ---
 reconsider:
   - people
@@ -69,9 +67,12 @@ question: |
 subquestion: |
   **You are required to have at least one, but two or three is preferable.**
 
-  List them in the order you want them to serve. Remember that the court ultimately decides 
+  **You should not name your spouse/the other parent of the children.** The
+  designation is in the event you are the last surviving parent of the minor child.
+
+  List them in the order you want them to serve. Remember that the court ultimately decides
   who is appointed but will take this written **Declaration of Guardian for My Children** into account.
-  
+
   Use the dropdown box to choose from a person whose name you provided earlier,
   or you may choose to enter information for someone new.
 fields:

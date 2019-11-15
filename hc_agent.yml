@@ -1,16 +1,22 @@
 metadata:
- description: This is the healthcare agent part of the document assembly package.
+ description: This is the medical agent part of the document assembly package.
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-11-12
---- 
+ revision_date: 2019-11-14
+---
 objects:
-  - healthcare_agent: DAList.using(object_type=Individual)
+  - healthcare_agent: DAList.using(object_type=Individual, minimum_number=2)
+---
+mandatory: True
+code: |
+  there_are_any = False
+  if healthcare_agent.there_are_any:
+    review_healthcare_agent
 ---
 table: healthcare_agent.table
 rows: healthcare_agent
-columns: 
+columns:
   - "#": |
       row_index + 1
   - Name: row_item.name
@@ -24,48 +30,44 @@ allow reordering: True
 ---
 mandatory: True
 question: |
-  Review Healthcare Agents
+  Review Medical Agents
 subquestion: |
-  Here is the information you provided for your healthcare agents.
-  ${ healthcare_agent.table }  
+  Here is the information you provided for your medical agents.
+  ${ healthcare_agent.table }
   ${ healthcare_agent.add_action() }
-field: healthcare_agent_review
+field: review_healthcare_agent
 ---
 question: |
   **Health Care Power of Attorney**
 subquestion: |
-  Let's gather information about individuals you want to serve as {healthcare agent}.
+  Let's gather information about individuals you want to serve as {medical agent}.
 
   They will be able to make treatment decisions for you in the event you are {incapacitated}.
 terms:
-  healthcare agent: |
+  medical agent: |
     Someone you authorize to make healthcare decisions for you in the event you are incapacitated.
   incapacitated: |
     This is a state when you are unable to communicate your own desires concerning treatment (for instance, if you are in a coma).
 field: healthcare_agent.there_are_any
 section: Medical Agent
 ---
-question: Would you like to list another healthcare agent?
+question: Would you like to list another medical agent?
 subquestion: |
-  **You are required to have at least one, but two or three is preferable.**
+  **You are required to have at least two.**
 yesno: healthcare_agent.there_is_another
 ---
 code: |
   people = spouse.complete_elements() \
-         + financial_agent.complete_elements() \
-         + healthcare_agent.complete_elements() \
-		 + authorized_person.complete_elements() \
-		 + guardian.complete_elements() \
-		 + child_guardian.complete_elements()
+         + financial_agent.complete_elements()
 ---
 reconsider:
   - people
 question: |
-  Who do you want to serve as ${ ordinal(i) } healthcare agent?
+  Who do you want to serve as ${ ordinal(i) } medical agent?
 subquestion: |
-  List them in the order you want them to serve. Only one at a time will 
-  serve as agent under the power of attorney.  
-  
+  List them in the order you want them to serve. Only one at a time will
+  serve as agent under the power of attorney.
+
   Use the dropdown box to choose from a person whose name you provided earlier,
   or you may choose to enter information for someone new.
 fields:

@@ -3,14 +3,14 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-11-12
---- 
+ revision_date: 2019-11-14
+---
 objects:
   - authorized_person: DAList.using(object_type=Individual)
 ---
 table: authorized_person.table
 rows: authorized_person
-columns: 
+columns:
   - Name: row_item.name
   - Address: row_item.address
   - Phone: row_item.phone_number
@@ -25,15 +25,15 @@ question: |
   Review Authorized Persons
 subquestion: |
   Here is the information you provided for persons authorized to receive your protected health information.
-  ${ authorized_person.table }  
+  ${ authorized_person.table }
   ${ authorized_person.add_action() }
-field: authorized_person_review
+field: review_authorized_person
 ---
 question: |
   **Authorization for Disclosure of Protected Health Information**
 subquestion: |
   Let's gather information about individuals who you want to list as {authorized persons} to receive your {protected health information}.
-  Health care providers given a copy of this document may disclose your protected health information to the {authorized persons}.
+  Health care providers given a copy of this document may disclose your {protected health information} to the {authorized persons}.
 terms:
   authorized persons: |
     The persons listed in this document will have access to your medical records.
@@ -52,10 +52,7 @@ yesno: authorized_person.there_is_another
 code: |
   people = spouse.complete_elements() \
          + financial_agent.complete_elements() \
-         + healthcare_agent.complete_elements() \
-		 + authorized_person.complete_elements() \
-		 + guardian.complete_elements() \
-		 + child_guardian.complete_elements()
+         + healthcare_agent.complete_elements()
 ---
 reconsider:
   - people
@@ -64,8 +61,8 @@ question: |
 subquestion: |
   **You are required to have at least one to complete this form, but two or three is preferable.**
 
-  There is no order. A health care provider may disclose your protected health information 
-  to any authorized person listed on the **Authorization for Disclosure of Protected Health Information**.  
+  There is no order. A health care provider may disclose your protected health information
+  to any authorized person listed on the **Authorization for Disclosure of Protected Health Information**.
 
   Use the dropdown box to choose from a person whose name you provided earlier,
   or you may choose to enter information for someone new.

@@ -2,7 +2,7 @@ metadata:
   authors:
     - name: James W. "Mitch" Mitchell
       organization: Gauntt Koen Binney & Kidd, LLP
-  revision_date: 2019-11-07
+  revision_date: 2019-11-14
 ---
 objects:
   - client.child: DAList.using(object_type=Individual,there_is_another=False)
@@ -19,7 +19,7 @@ yesno: client.child.there_are_any
 ---
 question: We will gather information about any children you have.
 field: children_intro
-section: About Your Children
+section: Your Children
 ---
 table: client.child.table
 rows: client.child
@@ -56,15 +56,15 @@ fields:
 question: |
   You Have Minor Children
 subquestion: |
-  Since at least one child of yours is a minor, you need to choose who you want 
+  Since at least one child of yours is a minor, you need to choose who you want
   to serve as Guardian for your minor children in the event you are the last
-  surviving parent and either you become incapacitated or you die.    
-  
-  The interview will prompt you for this information in later steps.  
-  
+  surviving parent and either you become incapacitated or you die.
+
+  The interview will prompt you for this information in later steps.
+
   Additionally, the document assembly system has automatically created trusts
   for beneficiaries who are too young to directly inherit and manage property.
-  
+
 field: final_review_child
 ---
 code: |

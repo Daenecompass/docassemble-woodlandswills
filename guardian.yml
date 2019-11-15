@@ -4,13 +4,13 @@ metadata:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
  revision_date: 2019-11-12
---- 
+---
 objects:
   - guardian: DAList.using(object_type=Individual)
 ---
 table: guardian.table
 rows: guardian
-columns: 
+columns:
   - "#": |
       row_index + 1
   - Name: row_item.name
@@ -27,9 +27,9 @@ question: |
   Review Guardian (You)
 subquestion: |
   Here is the information you provided for your guardians.
-  ${ guardian.table }  
+  ${ guardian.table }
   ${ guardian.add_action() }
-field: guardian_review
+field: review_guardian
 ---
 question: |
   **Declaration of Guardian Before Need Arises**
@@ -62,9 +62,7 @@ code: |
   people = spouse.complete_elements() \
          + financial_agent.complete_elements() \
          + healthcare_agent.complete_elements() \
-		 + authorized_person.complete_elements() \
-		 + guardian.complete_elements() \
-		 + child_guardian.complete_elements()
+		     + authorized_person.complete_elements()
 ---
 reconsider:
   - people
@@ -73,10 +71,10 @@ question: |
 subquestion: |
   **You are required to have at least one, but two or three is preferable.**
 
-  List them in the order you want them to serve. Remember that the court ultimately 
-  decides who is appointed but will take this written **Declaration of Guardian Before Need Arises** 
+  List them in the order you want them to serve. Remember that the court ultimately
+  decides who is appointed but will take this written **Declaration of Guardian Before Need Arises**
   into account.
-  
+
   Use the dropdown box to choose from a person whose name you provided earlier,
   or you may choose to enter information for someone new.
 fields:

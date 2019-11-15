@@ -2,7 +2,7 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-11-12
+ revision_date: 2019-11-14
 ---
 mandatory: True
 code: |
@@ -11,7 +11,7 @@ code: |
 ---
 question: We will gather information about your spouse, if you have one.
 field: spouse_intro
-section: About Your Spouse
+section: Your Spouse
 ---
 objects:
   - spouse: DAList.using(object_type=Individual,there_is_another=False, maximum_number=1)
@@ -83,7 +83,7 @@ fields:
       variable: spouse[i].address.existing_or_new
       is: Existing
     choices:
-      - ${ client[i].address }
+      - ${ client[0].address }
   - Address: spouse[i].address.address
     address autocomplete: True
     show if:
@@ -128,7 +128,7 @@ question: |
   % endif
 subquestion: |
   % if spouse.there_are_any:
-  Here is the information you provided for your spouse.  
+  Here is the information you provided for your spouse.
   ${ spouse.table }
   % else:
   Thank you, ${ client[0].name.first }. You just made your interview shorter.
