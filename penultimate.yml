@@ -1,0 +1,67 @@
+metadata:
+ authors:
+   - name: James W. "Mitch" Mitchell
+     organization: Gauntt Koen Binney & Kidd, LLP
+ revision_date: 2019-11-14
+---
+section: Final Review
+mandatory: True
+question: |
+  Review your answers
+review:
+  - note: |
+      Tap the buttons below to cycle back through your answers and to change
+      anything you need.
+
+      If you are confident your answers are finished, you can press Continue.
+  - note: |
+      #### Your Financial Agents
+  - Revisit Financial Agents: review_financial_agent
+    button: |
+      Listed in order of service:
+
+      **${ financial_agent }**
+  - note: |
+      #### Your Medical Agents
+  - Revisit Medical Agents: review_healthcare_agent
+    button: |
+      Listed in order of service:
+
+      **${ healthcare_agent }**
+  - note: |
+      #### Your Medical Directive Choices
+  - Revisit Medical Directive: review_directive
+    button: |
+     - *If I have a terminal condition*: ${ client.terminal_condition }.
+     - *If I have an irreversible condition*: ${ client.irreversible_condition }.
+  - note: |
+      #### Your HIPAA Authorized Persons
+  - Revisit Authorized Persons: review_authorized_person
+    button: |
+      Any person listed, regardless of order, may access your protected
+      health information:
+
+      **${ authorized_person }**
+  - note: |
+      #### Your Guardian
+  - Revisit Your Guardian: review_guardian
+    button: |
+      Listed in order of service:
+
+      **${ guardian }**
+  - note: |
+      #### Your Guardian of Children
+    show if: client.has_young_children
+  - Revisit Guardian (Children): review_child_guardian
+    button: |
+      Listed in order of service:
+
+      **${ child_guardian }**
+  - note: |
+      #### Your Executors
+  - Revisit Executors: review_executor
+    button: |
+      Listed in order of service:
+
+      **${ executor }**
+field: answers_reviewed
