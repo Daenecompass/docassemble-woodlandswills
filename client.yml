@@ -2,7 +2,7 @@ metadata:
  authors:
    - name: James W. "Mitch" Mitchell
      organization: Gauntt Koen Binney & Kidd, LLP
- revision_date: 2019-11-12
+ revision_date: 2019-11-15
 ---
 objects:
   - client: DAList.using(object_type=Individual,there_are_any=True, there_is_another=False, maximum_number=1)
@@ -44,7 +44,7 @@ fields:
 ---
 mandatory: True
 question: |
-  What is is your date of birth?
+  What is your date of birth?
 fields:
   - Date of Birth: client[i].birthdate
     datatype: date
@@ -90,6 +90,6 @@ edit:
 question: |
   About You
 subquestion: |
-  Here is the information you provided.  
+  Here is the information you provided.
   ${ client.table }
 field: review_client
